@@ -97,5 +97,15 @@
         on a.owner = u.uuid
     </select>
 
+    <select id="getActivityVOListByContactsId" resultType="com.nero.crm.vo.ActivityVO">
+        select a.id, a.name, a.startDate, a.endDate, u.name as owner
+        from tbl_contacts_activity_relation tcar
+        join tbl_activity a
+        on tcar.activityId = a.id
+        join tbl_user u
+        on a.owner = u.uuid
+        where tcar.contactsId = #{contactsId}
+    </select>
+
 
 </mapper>

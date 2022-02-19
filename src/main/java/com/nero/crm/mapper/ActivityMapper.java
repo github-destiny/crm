@@ -79,4 +79,11 @@ public interface ActivityMapper {
      */
     List<ActivityVO> getAllActivity();
 
+    /**
+     * 通过contactsId获取有关的市场活动
+     * @param contactsId
+     * @return
+     */
+    List<ActivityVO> getActivityVOListByContactsId(Integer contactsId);
+
 }

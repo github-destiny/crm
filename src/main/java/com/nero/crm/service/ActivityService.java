@@ -72,4 +72,8 @@ public class ActivityService {
     public List<ActivityVO> getAllActivity() {
         return activityMapper.getAllActivity();
     }
+
+    public List<ActivityVO> getActivityVOListByContactsId(Integer contactsId) {
+        return activityMapper.getActivityVOListByContactsId(contactsId);
+    }
 }

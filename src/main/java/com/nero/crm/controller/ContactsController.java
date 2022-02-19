@@ -2,11 +2,15 @@ package com.nero.crm.controller;
 
 import com.nero.crm.domain.Contacts;
 import com.nero.crm.exception.ContactsException;
+import com.nero.crm.service.ActivityService;
 import com.nero.crm.service.ContactsService;
+import com.nero.crm.service.TranService;
 import com.nero.crm.util.DateTimeUtil;
 import com.nero.crm.util.MapUtil;
+import com.nero.crm.vo.ActivityVO;
 import com.nero.crm.vo.ContactsVO;
 import com.nero.crm.vo.PaginationVO;
+import com.nero.crm.vo.TranVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +29,12 @@ public class ContactsController {
 
     @Autowired
     private ContactsService contactsService;
+
+    @Autowired
+    private TranService tranService;
+
+    @Autowired
+    private ActivityService activityService;
 
     @PostMapping("/insert")
     public Map<String, Object> insert(Contacts contacts){
@@ -84,6 +94,30 @@ public class ContactsController {
     @GetMapping("/{id}")
     public Map<String, Object> getInfo(@PathVariable("id") Integer id){
         return MapUtil.getSuccessMap(contactsService.getInfoById(id));
+    }
+
+    @GetMapping("/tran/{id}")
+    public Map<String, Object> getTranVOListByContactsId(@PathVariable("id") Integer contactsId){
+        List<TranVO> dataList = tranService.getTranVOListByContactsId(contactsId);
+        return MapUtil.getSuccessMap(dataList);
+    }
+
+    @PostMapping("/tran/{id}")
+    public Map<String, Object> deleteTranById(@PathVariable("id") Integer tranId){
+        tranService.deleteTran(tranId);
+        return MapUtil.getSuccessMap("delete success");
+    }
+
+    @GetMapping("/activity/{id}")
+    public Map<String, Object> getActivityVOListByContactsId(@PathVariable("id") Integer contactsId){
+        List<ActivityVO> dataList = activityService.getActivityVOListByContactsId(contactsId);
+        return MapUtil.getSuccessMap(dataList);
+    }
+
+    @PostMapping("/activity")
+    public Map<String, Object> deleteRelationContactsAndActivity(@RequestParam("activityId") Integer activityId, @RequestParam("contactsId") Integer contactsId){
+        contactsService.deleteRelationContactsAndActivity(activityId, contactsId);
+        return MapUtil.getSuccessMap("delete success");
     }
 
 }

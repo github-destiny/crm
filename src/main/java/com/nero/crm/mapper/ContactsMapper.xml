@@ -130,6 +130,10 @@
             </foreach>
     </delete>
 
+    <delete id="deleteRelationByAIdContactsId">
+        delete from tbl_contacts_activity_relation where activityId = #{activityId} and contactsId = #{contactsId}
+    </delete>
+
     <select id="pageList" resultType="com.nero.crm.vo.ContactsVO">
         select con.id, con.fullname, cus.name as customerName, u.name as owner, con.source, con.birth
         from tbl_contacts con

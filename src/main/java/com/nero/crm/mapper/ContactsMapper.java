@@ -48,4 +48,12 @@ public interface ContactsMapper {
     int insertContactsByClue(Clue clue);
 
     List<ContactsVO> getContactsListByCustomerId(Integer customerId);
+
+    /**
+     * 通过aid和contactsId删除关联
+     * @param activityId aid
+     * @param contactsId cid
+     * @return
+     */
+    int deleteRelationByAIdContactsId(@Param("activityId") Integer activityId, @Param("contactsId") Integer contactsId);
 }

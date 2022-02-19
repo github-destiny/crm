@@ -73,4 +73,8 @@ public class ContactsService {
         return contactsMapper.getContactsListByCustomerId(customerId);
     }
 
+    public void deleteRelationContactsAndActivity(Integer activityId, Integer contactsId){
+        contactsMapper.deleteRelationByAIdContactsId(activityId, contactsId);
+    }
+
 }

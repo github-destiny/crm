@@ -144,4 +144,11 @@ public interface TranMapper {
      */
     List<TranVO> getTranVOByCustomerId(Integer customerId);
 
+    /**
+     * 通过contactsId获取tran列表
+     * @param contactsId
+     * @return
+     */
+    List<TranVO> getTranVOByContactsId(Integer contactsId);
+
 }
