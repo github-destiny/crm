@@ -2,11 +2,15 @@ package com.nero.crm.controller;
 
 import com.nero.crm.domain.Customer;
 import com.nero.crm.exception.CustomerException;
+import com.nero.crm.service.ContactsService;
 import com.nero.crm.service.CustomerService;
+import com.nero.crm.service.TranService;
 import com.nero.crm.util.DateTimeUtil;
 import com.nero.crm.util.MapUtil;
+import com.nero.crm.vo.ContactsVO;
 import com.nero.crm.vo.CustomerVO;
 import com.nero.crm.vo.PaginationVO;
+import com.nero.crm.vo.TranVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +29,12 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private TranService tranService;
+
+    @Autowired
+    private ContactsService contactsService;
 
     @PostMapping("/insert")
     public Map<String, Object> insertCustomer(Customer customer){
@@ -91,4 +101,29 @@ public class CustomerController {
     public Map<String, Object> getCustomerInfo(@PathVariable("id") Integer id){
         return MapUtil.getSuccessMap(customerService.getCustomerInfoById(id));
     }
+
+    @GetMapping("/tran/{id}")
+    public Map<String, Object> getTranVO(@PathVariable("id") Integer customerId){
+        List<TranVO> dataList = tranService.getTranVOList(customerId);
+        return MapUtil.getSuccessMap(dataList);
+    }
+
+    @PostMapping("/tran/{id}")
+    public Map<String, Object> deleteTran(@PathVariable("id") Integer tranId){
+        tranService.deleteTran(tranId);
+        return MapUtil.getSuccessMap("删除了该条交易");
+    }
+
+    @GetMapping("/contacts/{id}")
+    public Map<String, Object> getContactsVO(@PathVariable("id") Integer customerId){
+        List<ContactsVO> dataList = contactsService.getContactsListByCustomerId(customerId);
+        return MapUtil.getSuccessMap(dataList);
+    }
+
+    @PostMapping("/contacts/{id}")
+    public Map<String, Object> deleteContactsById(@PathVariable("id") Integer contactsId){
+        contactsService.deleteContactsById(contactsId);
+        return MapUtil.getSuccessMap("delete success");
+    }
+
 }

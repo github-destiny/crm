@@ -4,6 +4,8 @@ import com.nero.crm.domain.*;
 import com.nero.crm.mapper.*;
 import com.nero.crm.service.CustomerService;
 import com.nero.crm.util.DateTimeUtil;
+import com.nero.crm.util.UUIDUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/test")
 @ResponseBody
+@Slf4j
 public class TestController {
 
     @Autowired
@@ -37,6 +40,9 @@ public class TestController {
     @Autowired
     private TranMapper tranMapper;
 
+    @Autowired
+    private TestMapper testMapper;
+
     @RequestMapping("/access")
     public Object access() {
         Map<String, Object> map = new HashMap<>();
@@ -47,8 +53,7 @@ public class TestController {
         return map;
     }
 
-    @RequestMapping("/iactivity")
-    public Map<String, Object> insertActivity() {
+    private void insertActivity() {
         List<Activity> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Activity activity = new Activity("asdfgh", "发传单" + i,
@@ -56,35 +61,14 @@ public class TestController {
                     Integer.toString(i * 1000), "发传单" + i, DateTimeUtil.getDate(), "asdfgh", "", "");
             list.add(activity);
         }
-        int i = activityMapper.insertManyData(list);
-        Map<String, Object> map = new HashMap<>();
-        if (i == 10) {
-            map.put("count", 10);
-            map.put("status", 200);
-            map.put("msg", "插入成功");
-        } else {
-            map.put("error", "error");
-            map.put("status", 500);
-            map.put("msg", "插入失败!");
-        }
-        return map;
+        activityMapper.insertManyData(list);
     }
 
-    @RequestMapping("/atotal")
-    public Map<String, Object> getTotal() {
-        int total = activityMapper.getTotal();
-        Map<String, Object> map = new HashMap<>();
-        map.put("status", 200);
-        map.put("total", total);
-        return map;
+    private int getTotal() {
+        return activityMapper.getTotal();
     }
 
-    /**
-     * 插入clue数据
-     * @return
-     */
-    @RequestMapping("/iclue")
-    public Map<String, Object> insertClue(){
+    private void insertClue(){
         List<Clue> clueList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Clue clue = new Clue("线索" + i, "先生", "asdfgh", "公司" + i, "CTO", i + "@qq.com", i + "xxxxxxxx", "www." + i + ".com", "0" + i + "0-xxxxxx", "联系中", "广告",
@@ -92,15 +76,12 @@ public class TestController {
             clueList.add(clue);
         }
         clueMapper.insertClue10(clueList);
-        return getMap(200, "插入成功", 10);
     }
 
-    @RequestMapping("/icar")
-    public Map<String, Object> insertClueActivityRelation(){
+    private void insertClueActivityRelation(){
         for(int i = 1, j = 10; i <= 10 && j >= 1; i++, j--){
             clueMapper.insertClueActivityRelation(i, j);
         }
-        return getMap(200, "插入成功", 10);
     }
 
     private Map<String, Object> getMap(Integer code, String msg, Integer count){
@@ -111,8 +92,7 @@ public class TestController {
         return map;
     }
 
-    @GetMapping("/customer")
-    public Map<String, Object> customerTest(){
+    private void customerTest(){
         // 模拟数据
         List<Customer> customerList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -120,14 +100,12 @@ public class TestController {
             customerList.add(customer);
         }
         customerService.insert10(customerList);
-        return getMap(200, "插入成功", 10);
     }
 
     /**
      * @return
      */
-    @GetMapping("/contacts")
-    public Map<String, Object> contacts(){
+    private void contacts(){
         List<Contacts> contactsList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Contacts contacts = new Contacts("asdfgh", "广告", i, "李" + i, "先生", i + "@qq.com", Integer.toString(i), Integer.toString(i), "2022-01-01", "asdfgh", DateTimeUtil.getDate(),
@@ -135,36 +113,54 @@ public class TestController {
             contactsList.add(contacts);
         }
         contactsMapper.insert10(contactsList);
-        return getMap(200, "插入成功", 10);
     }
 
     /**|
-     *         this.owner = owner;
-     *         this.money = money;
-     *         this.name = name;
-     *         this.expectedDate = expectedDate;
-     *         this.customerId = customerId;
-     *         this.stage = stage;
-     *         this.type = type;
-     *         this.source = source;
-     *         this.activityId = activityId;
-     *         this.contactsId = contactsId;
-     *         this.createBy = createBy;
-     *         this.createTime = createTime;
-     *         this.description = description;
-     *         this.contactSummary = contactSummary;
-     *         this.nextContactTime = nextContactTime;
-     *         this.possible = possible;
      * @return
      */
-    @GetMapping("/tran")
-    public Map<String, Object> tran(){
+    private void tran(){
         ArrayList<Tran> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Tran tran = new Tran("asdfgh", Integer.toString(5000), "交易" + i, "2022-01-01", 5, "资质审查", "新业务", "广告", 6, 5, "asdfgh", "2022-01-01", Integer.toString(i), Integer.toString(i), "2022-01-01", i * 10);
             list.add(tran);
         }
         tranMapper.insert10(list);
-        return getMap(200, "插入成功", 10);
+    }
+
+    @GetMapping("/itest")
+    public Map<String, Object> insertTest(){
+        Test test = new Test(UUIDUtil.getUUID(), new Random().nextInt(100));
+        int insert = testMapper.insertByTest(test);
+        log.info("test.id:{}", test.getId());
+        return getMap(200, Integer.toString(insert), 1);
+    }
+
+    @GetMapping("/init")
+    public Map<String, Object> init(){
+        Map<String, Object> map = new HashMap<>();
+        testMapper.clearTables();
+        map.put("op1", "truncate all table....success!");
+        // activity
+        insertActivity();
+        map.put("op2", "insert tbl_activity....success!");
+        int total = getTotal();
+        map.put("activity_total", total);
+        // clue
+        insertClue();
+        map.put("op3", "insert tbl_clue....success!");
+        insertClueActivityRelation();
+        map.put("op4", "insert tbl_clue_activity_relation....success!");
+        // customer
+        customerTest();
+        map.put("op5", "insert tbl_customer....success!");
+        // contacts
+        contacts();
+        map.put("op6", "insert tbl_contacts....success!");
+        // tran
+        tran();
+        map.put("op7", "insert tbl_tran....success!");
+        map.put("res", "all operator completed...");
+        map.put("status", 200);
+        return map;
     }
 }

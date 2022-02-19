@@ -159,8 +159,12 @@ public class ClueController {
         map.put("expectedDate", expectedDate);
         map.put("stage", stage);
         map.put("activityId", activityId);
-        clueService.convert(id, flag, map);
-        return MapUtil.getSuccessMap("convert success!");
+        try {
+            clueService.convert(id, flag, map);
+            return MapUtil.getSuccessMap("convert success!");
+        } catch (ClueException e) {
+            return MapUtil.getFailureMap(e.getMessage());
+        }
     }
 
 

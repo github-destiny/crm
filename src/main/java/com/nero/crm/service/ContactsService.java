@@ -69,4 +69,8 @@ public class ContactsService {
         return contactsMapper.getInfoById(id);
     }
 
+    public List<ContactsVO> getContactsListByCustomerId(Integer customerId){
+        return contactsMapper.getContactsListByCustomerId(customerId);
+    }
+
 }

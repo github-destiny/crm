@@ -61,4 +61,8 @@ public class TranService {
         return tranMapper.getInfoById(id);
     }
 
+    public List<TranVO> getTranVOList(Integer customerId){
+        return tranMapper.getTranVOByCustomerId(customerId);
+    }
+
 }

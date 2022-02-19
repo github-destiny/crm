@@ -6,9 +6,11 @@ import com.nero.crm.mapper.ClueMapper;
 import com.nero.crm.mapper.ContactsMapper;
 import com.nero.crm.mapper.CustomerMapper;
 import com.nero.crm.mapper.TranMapper;
+import com.nero.crm.util.DateTimeUtil;
 import com.nero.crm.vo.ActivityVO;
 import com.nero.crm.vo.ClueVO;
 import com.nero.crm.vo.PaginationVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import java.util.Map;
  * @version 1.0.0
  * @Date 2022/2/17
  */
+@Slf4j
 @Service
 public class ClueService {
 
@@ -116,21 +119,49 @@ public class ClueService {
         return clueMapper.getTotal();
     }
 
+    /**
+     * 转换线索
+     * @param id clue id
+     * @param flag 是否创建交易
+     * @param map 参数列表
+     * String money,
+     * String tranName,
+     * String expectedDate,
+     * String stage,
+     * Integer activityId
+     */
     @Transactional
     public void convert(Integer id, boolean flag, Map<String, Object> map){
-        // 线索转换
-        Clue clue = clueMapper.getClueInfo(id);
-        // 根据线索生成customer
-        customerMapper.insertCustomerByClue(id);
-        // 根据线索生成contacts
-        contactsMapper.insertContactsByClue(id);
-        // 根据线索生成交易信息
-        if (flag) {
-            tranMapper.insertTranByClue(id);
-            tranMapper.updateTranByClue(map);
+        try {
+            Clue clue = clueMapper.getClueInfo(id);
+            clue.setCreateTime(DateTimeUtil.getDate());
+            // 根据线索生成customer
+            customerMapper.insertCustomerByClue(clue);
+            int customerId = clue.getId();
+            log.info("customerId-->{}", customerId);
+
+            // 根据线索生成contacts
+            contactsMapper.insertContactsByClue(clue);
+            int contactsId = clue.getId();
+            clue.setCreateTime(DateTimeUtil.getDate());
+            log.info("contactsId-->{}", contactsId);
+
+            // 根据线索生成交易信息
+            if (flag) {
+                clue.setCreateTime(DateTimeUtil.getDate());
+                tranMapper.insertTranByClue(clue);
+                int tranId = clue.getId();
+                log.info("tranId-->{}", tranId);
+                map.put("customerId", customerId);
+                map.put("contactsId", contactsId);
+                map.put("id", tranId);
+                tranMapper.updateTranByClue(map);
+            }
+            // 删除线索信息
+            this.deleteOneClue(id);
+        } catch (Exception e){
+            throw new ClueException(e.getMessage());
         }
-        // 删除线索信息
-        clueMapper.deleteClue(id);
     }
 
 

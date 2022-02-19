@@ -18,9 +18,14 @@
         </foreach>
     </insert>
 
-    <insert id="insertCustomerByClue">
+    <insert id="insertCustomerByClueId" useGeneratedKeys="true" keyProperty="id">
         insert into tbl_customer(owner,name,website,mphone,createBy,createTime,contactSummary,nextContactTime,description,address)
         (select owner, company, website, mphone, createBy, NOW() as createTime, contactSummary, nextContactTime, description, address from tbl_clue where id = #{clueId})
+    </insert>
+
+    <insert id="insertCustomerByClue" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_customer(owner,name,website,mphone,createBy,createTime,contactSummary,nextContactTime,description,address)
+        values(#{owner},#{company},#{website},#{mphone},#{createBy},#{createTime},#{contactSummary},#{nextContactTime},#{description},#{address})
     </insert>
 
     <update id="editCustomer">

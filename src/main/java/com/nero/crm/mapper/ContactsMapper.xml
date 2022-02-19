@@ -32,7 +32,7 @@
         </foreach>
     </insert>
 
-    <insert id="insertContactsByClue">
+    <insert id="insertContactsByClueId" useGeneratedKeys="true" keyProperty="id">
         insert into tbl_contacts(owner,source,customerId,fullname,appellation,email,
                                  mphone,job,createBy,createTime,description,contactSummary,nextContactTime,address)
         (
@@ -41,6 +41,13 @@
             join tbl_customer cus
             on c.company = cus.`name`
             where c.id = #{clueId})
+    </insert>
+
+    <insert id="insertContactsByClue" useGeneratedKeys="true" keyProperty="id">
+        insert into tbl_contacts(owner,source,fullname,appellation,email,
+                                 mphone,job,createBy,createTime,description,contactSummary,nextContactTime,address)
+        values(#{owner},#{source},#{fullname},#{appellation},#{email},#{mphone},
+               #{job},#{createBy},#{createTime},#{description},#{contactSummary},#{nextContactTime},#{address})
     </insert>
 
     <update id="editContact">
@@ -157,6 +164,10 @@
 
     <select id="getTotal" resultType="java.lang.Integer">
         select count(1) from tbl_contacts
+    </select>
+
+    <select id="getContactsListByCustomerId" resultType="com.nero.crm.vo.ContactsVO">
+        select id, fullname, email, mphone from tbl_contacts where customerId = #{customerId}
     </select>
 
 

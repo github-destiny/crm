@@ -1,5 +1,6 @@
 package com.nero.crm.mapper;
 
+import com.nero.crm.domain.Clue;
 import com.nero.crm.domain.Contacts;
 import com.nero.crm.vo.ContactsVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -42,5 +43,9 @@ public interface ContactsMapper {
 
     int insert10(@Param("contactsList") List<Contacts> contactsList);
 
-    int insertContactsByClue(Integer clueId);
+    int insertContactsByClueId(Integer clueId);
+
+    int insertContactsByClue(Clue clue);
+
+    List<ContactsVO> getContactsListByCustomerId(Integer customerId);
 }

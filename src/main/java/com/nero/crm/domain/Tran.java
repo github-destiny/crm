@@ -33,6 +33,7 @@ public class Tran {
     private String contactSummary;
     private String nextContactTime;
     private Integer possible;
+    private String uuid;
 
     public Tran(String owner, String money, String name, String expectedDate, Integer customerId, String stage, String type, String source, Integer activityId, Integer contactsId, String createBy, String createTime, String description, String contactSummary, String nextContactTime, Integer possible) {
         this.owner = owner;
@@ -51,5 +52,25 @@ public class Tran {
         this.contactSummary = contactSummary;
         this.nextContactTime = nextContactTime;
         this.possible = possible;
+    }
+
+    public Tran(String owner, String money, String name, String expectedDate, Integer customerId, String stage, String type, String source, Integer activityId, Integer contactsId, String createBy, String createTime, String description, String contactSummary, String nextContactTime, Integer possible, String uuid) {
+        this.owner = owner;
+        this.money = money;
+        this.name = name;
+        this.expectedDate = expectedDate;
+        this.customerId = customerId;
+        this.stage = stage;
+        this.type = type;
+        this.source = source;
+        this.activityId = activityId;
+        this.contactsId = contactsId;
+        this.createBy = createBy;
+        this.createTime = createTime;
+        this.description = description;
+        this.contactSummary = contactSummary;
+        this.nextContactTime = nextContactTime;
+        this.possible = possible;
+        this.uuid = uuid;
     }
 }

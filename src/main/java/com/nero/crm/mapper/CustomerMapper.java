@@ -1,5 +1,6 @@
 package com.nero.crm.mapper;
 
+import com.nero.crm.domain.Clue;
 import com.nero.crm.domain.Customer;
 import com.nero.crm.vo.CustomerVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -34,5 +35,12 @@ public interface CustomerMapper {
 
     int insert10(@Param("customerList") List<Customer> customerList);
 
-    int insertCustomerByClue(Integer clueId);
+    /**
+     * 通过clueId插入数据
+     * @param clueId
+     * @return
+     */
+    int insertCustomerByClueId(Integer clueId);
+
+    int insertCustomerByClue(Clue clue);
 }

@@ -35,7 +35,7 @@
         </foreach>
     </insert>
 
-    <insert id="insertTranByClue">
+    <insert id="insertTranByClueId" useGeneratedKeys="true">
         insert into tbl_tran(owner,customerId,source,contactsId,createBy,createTime,description,contactSummary,nextContactTime)
         (select c.owner, cus.id as customerId, c.source, con.id as contactsId, c.createBy, NOW() as createTime, c.description, c.contactSummary, c.nextContactTime
          from tbl_clue c
@@ -44,6 +44,11 @@
                   join tbl_contacts con
                        on c.fullname = con.fullname
             where c.id = #{clueId})
+    </insert>
+
+    <insert id="insertTranByClue">
+        insert into tbl_tran(owner,source,createBy,createTime,description,contactSummary,nextContactTime)
+        values(#{owner},#{source},#{createBy},#{createTime},#{description},#{contactSummary},#{nextContactTime})
     </insert>
 
     <update id="editTran">
@@ -91,7 +96,9 @@
     </update>
 
     <update id="updateTranByClue">
-        update tbl_tran set money = #{money}, name = #{name}, expectedDate = #{expectedDate}, stage = #{stage}, activityId = #{activityId}
+        update tbl_tran set money = #{money}, name = #{name}, expectedDate = #{expectedDate},
+                            customerId = #{customerId}, contactsId = #{contactsId},
+                            stage = #{stage}, activityId = #{activityId} where id = #{id}
     </update>
 
     <delete id="deleteTranByCustomerId">
@@ -180,6 +187,10 @@
 
     <select id="getTotal" resultType="java.lang.Integer">
         select count(1) from tbl_tran
+    </select>
+
+    <select id="getTranVOByCustomerId" resultType="com.nero.crm.vo.TranVO">
+        select id, name, money, stage, possible, expectedDate, type from tbl_tran where customerId = #{customerId}
     </select>
 
 
