@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nero.crm.mapper.TranMapper">
+
+    <insert id="insertTran">
+        insert into tbl_tran(owner,money,name,expectedDate,customerId,stage,
+                             type,source,activityId,contactsId,createBy,createTime,description,contactSummary,nextContactTime, possible)
+        values(#{owner},#{money},#{name},#{expectedDate},#{customerId},#{stage},
+               #{type},#{source},#{activityId},#{contactsId},#{createBy},#{createTime},#{description},#{contactSummary},#{nextContactTime}, #{possible})
+    </insert>
+
+    <insert id="insert10">
+        insert into tbl_tran(owner,money,name,expectedDate,customerId,stage,
+                             type,source,activityId,contactsId,createBy,createTime,description,contactSummary,nextContactTime, possible)
+        values
+        <foreach collection="trans" item="tran" separator=",">
+            (
+            #{tran.owner},
+            #{tran.money},
+            #{tran.name},
+            #{tran.expectedDate},
+            #{tran.customerId},
+            #{tran.stage},
+            #{tran.type},
+            #{tran.source},
+            #{tran.activityId},
+            #{tran.contactsId},
+            #{tran.createBy},
+            #{tran.createTime},
+            #{tran.description},
+            #{tran.contactSummary},
+            #{tran.nextContactTime},
+            #{tran.possible}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertTranByClue">
+        insert into tbl_tran(owner,customerId,source,contactsId,createBy,createTime,description,contactSummary,nextContactTime)
+        (select c.owner, cus.id as customerId, c.source, con.id as contactsId, c.createBy, NOW() as createTime, c.description, c.contactSummary, c.nextContactTime
+         from tbl_clue c
+                  join tbl_customer cus
+                       on c.company = cus.`name`
+                  join tbl_contacts con
+                       on c.fullname = con.fullname
+            where c.id = #{clueId})
+    </insert>
+
+    <update id="editTran">
+        update tbl_tran
+        <trim prefix="set">
+            <if test="owner != null and owner != ''">
+                owner = #{owner},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="money != null and money != ''">
+                money = #{money},
+            </if>
+            <if test="expectedDate != null and expectedDate != ''">
+                expectedDate = #{expectedDate},
+            </if>
+            <if test="stage != null and stage != ''">
+                stage = #{stage},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="possible != null and possible != ''">
+                possible = #{possible},
+            </if>
+            <if test="source != null and source != ''">
+                source = #{source},
+            </if>
+            <if test="activityId != null and activityId != ''">
+                activityId = #{activityId},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="contactSummary != null and contactSummary != ''">
+                contactSummary = #{contactSummary},
+            </if>
+            <if test="nextContactTime != null and nextContactTime != ''">
+                nextContactTime = #{nextContactTime},
+            </if>
+        </trim>
+        editTime = #{editTime}, editBy = #{editBy}
+        where id = #{id}
+    </update>
+
+    <update id="updateTranByClue">
+        update tbl_tran set money = #{money}, name = #{name}, expectedDate = #{expectedDate}, stage = #{stage}, activityId = #{activityId}
+    </update>
+
+    <delete id="deleteTranByCustomerId">
+        delete from tbl_tran where customerId = #{customerId}
+    </delete>
+
+    <delete id="deleteTranByCustomerIds">
+        delete from tbl_tran where customerId in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTranByContactsId">
+        delete from tbl_tran where contactsId = #{contactsId}
+    </delete>
+
+    <delete id="deleteTranByContactsIds">
+        delete from tbl_tran where contactsId in
+            <foreach collection="contactsIds" item="contactsId" open="(" separator="," close=")">
+                #{contactsId}
+            </foreach>
+    </delete>
+
+    <delete id="deleteTranById">
+        delete from tbl_tran where id = #{id}
+    </delete>
+
+    <delete id="deleteAnyTranByIds">
+        delete from tbl_tran where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTranHistory">
+        delete from tbl_tran_history where tranId = #{id}
+    </delete>
+
+    <delete id="deleteAnyTranHistory">
+        delete from tbl_tran_history where tranId in
+        <foreach collection="tranIds" open="(" item="tranId" separator="," close=")">
+            #{tranId}
+        </foreach>
+    </delete>
+
+    <select id="pageList" resultType="com.nero.crm.vo.TranVO">
+        select t.id, t.name, cus.name as customerName, t.stage, t.type, u.name as owner, t.source, con.fullname as contactsName
+        from tbl_tran t
+        join tbl_user u
+        on t.owner = u.uuid
+        join tbl_customer cus
+        on t.customerId = cus.id
+        join tbl_contacts con
+        on t.contactsId = con.id
+        <where>
+            <if test="name != null and name != ''">
+                t.name like concat("%", #{name}, "%")
+            </if>
+            <if test="owner != null and owner != ''">
+                u.name like concat("%", #{owner}, "%")
+            </if>
+            <if test="customerName != null and customerName != ''">
+                cus.name like concat("%", #{customerName}, "%")
+            </if>
+            <if test="stage != null and stage != ''">
+                t.stage like concat("%", #{stage}, "%")
+            </if>
+            <if test="type != null and type != ''">
+                t.type like concat("%", #{type}, "%")
+            </if>
+            <if test="source != null and source != ''">
+                t.source like concat("%", #{source}, "%")
+            </if>
+            <if test="contactsName != null and contactsName != ''">
+                con.fullname like concat("%", #{contactsName}, "%")
+            </if>
+        </where>
+        order by t.id
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+    <select id="getInfoById" resultType="com.nero.crm.domain.Tran">
+        select * from tbl_tran where id = #{id}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(1) from tbl_tran
+    </select>
+
+
+</mapper>

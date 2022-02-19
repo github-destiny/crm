@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nero.crm.mapper.CustomerMapper">
+
+    <insert id="insertCustomer">
+        insert into tbl_customer(owner,name,website,mphone,createBy,createTime,contactSummary,nextContactTime,description,address)
+        values (#{owner},#{name},#{website},#{mphone},#{createBy},#{createTime},#{contactSummary},#{nextContactTime},#{description},#{address})
+    </insert>
+
+    <insert id="insert10">
+        insert into tbl_customer(owner,name,website,mphone,createBy,createTime,contactSummary,nextContactTime,description,address)
+        values
+        <foreach collection="customerList" item="customer" separator=",">
+            (
+                #{customer.owner},#{customer.name},#{customer.website},#{customer.mphone},#{customer.createBy},#{customer.createTime},
+                #{customer.contactSummary},#{customer.nextContactTime},#{customer.description},#{customer.address}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertCustomerByClue">
+        insert into tbl_customer(owner,name,website,mphone,createBy,createTime,contactSummary,nextContactTime,description,address)
+        (select owner, company, website, mphone, createBy, NOW() as createTime, contactSummary, nextContactTime, description, address from tbl_clue where id = #{clueId})
+    </insert>
+
+    <update id="editCustomer">
+        update tbl_customer
+        <trim prefix="set">
+            <if test="owner != null and owner != ''">
+                owner = #{owner},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="website != null and website != ''">
+                website = #{website},
+            </if>
+            <if test="mphone != null and mphone != ''">
+                mphone = #{mphone},
+            </if>
+            <if test="contactSummary != null and contactSummary != ''">
+                contactSummary = #{contactSummary},
+            </if>
+            <if test="nextContactTime != null and nextContactTime != ''">
+                nextContactTime = #{nextContactTime},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+        </trim>
+        editTime = #{editTime}, editBy = #{editBy}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOneCustomer">
+        delete from tbl_customer where id = #{id}
+    </delete>
+
+    <delete id="deleteAnyCustomer">
+        delete from tbl_customer where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="pageList" resultType="com.nero.crm.vo.CustomerVO">
+        select c.id, c.name, u.name as owner, c.mphone, c.website
+        from tbl_customer c
+        join tbl_user u
+        on c.owner = u.uuid
+        <where>
+            <if test="name != null and name != ''">
+                c.name like concat("%", #{name}, "%")
+            </if>
+            <if test="owner != null and owner != ''">
+                u.name like concat("%", #{owner}, "%")
+            </if>
+            <if test="mphone != null and mphone != ''">
+                c.mphone like concat("%", #{mphone}, "%")
+            </if>
+            <if test="website != null and website != ''">
+                c.website like concat("%", #{website}, "%")
+            </if>
+        </where>
+        order by c.id
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+    <select id="getCustomerInfo" resultType="com.nero.crm.domain.Customer">
+        select * from tbl_customer where id = #{id}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(1) from tbl_customer
+    </select>
+
+
+</mapper>

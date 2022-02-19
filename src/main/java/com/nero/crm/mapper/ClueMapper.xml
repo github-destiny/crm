@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nero.crm.mapper.ClueMapper">
+
+    <insert id="createOnnClue">
+        insert into tbl_clue(fullname,appellation,owner,company,job,
+        email,phone,website,mphone,state,source,createBy,createTime,
+        description,contactSummary,nextContactTime,address)
+        values (#{fullname},#{appellation},#{owner},#{company},#{job},
+        #{email},#{phone},#{website},#{mphone},#{state},#{source},#{createBy},#{createTime},
+        #{description},#{contactSummary},#{nextContactTime},#{address})
+    </insert>
+
+    <insert id="connectClueAndActivity">
+        insert into tbl_clue_activity_relation(clueId, activityId)
+        values
+        <foreach collection="activitiesIds" separator="," item="activityId">
+            (
+                #{clueId}, #{activityId}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertClue10">
+        insert into tbl_clue(fullname,appellation,owner,company,job,
+        email,phone,website,mphone,state,source,createBy,createTime,
+        description,contactSummary,nextContactTime,address)
+        values
+        <foreach collection="clueList" item="clue" separator=",">
+            (
+                #{clue.fullname},#{clue.appellation},#{clue.owner},#{clue.company},#{clue.job},
+                #{clue.email},#{clue.phone},#{clue.website},#{clue.mphone},#{clue.state},#{clue.source},#{clue.createBy},#{clue.createTime},
+                #{clue.description},#{clue.contactSummary},#{clue.nextContactTime},#{clue.address}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertClueActivityRelation">
+        insert into tbl_clue_activity_relation(clueId, activityId)
+        values (#{clueId}, #{activityId})
+    </insert>
+
+    <update id="editClue">
+        update tbl_clue
+        <trim prefix="set" suffixOverrides=",">
+            <if test="owner != null and owner != ''">
+                owner = #{owner},
+            </if>
+            <if test="company != null and company != ''">
+                company = #{company},
+            </if>
+            <if test="appellation != null and appellation != ''">
+                appellation = #{appellation},
+            </if>
+            <if test="fullname != null and fullname != ''">
+                fullname = #{fullname},
+            </if>
+            <if test="job != null and job != ''">
+                job = #{job},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="mphone != null and mphone != ''">
+                mphone = #{mphone},
+            </if>
+            <if test="website != null and website != ''">
+                website = #{website},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+            <if test="source != null and source != ''">
+                source = #{source},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="contactSummary != null and contactSummary != ''">
+                contactSummary = #{contactSummary},
+            </if>
+            <if test="nextContactTime != null and nextContactTime != ''">
+                nextContactTime = #{nextContactTime},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClue">
+        delete from tbl_clue where id = #{id}
+    </delete>
+
+    <delete id="deleteActivitiesRelationThisClue">
+        delete from tbl_clue_activity_relation where clueId = #{clueId};
+    </delete>
+
+    <delete id="deleteManyClue">
+        delete from tbl_clue where id in
+        <foreach collection="ids" open="(" item="id" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteActivitiesByClueIdList">
+        delete from tbl_clue_activity_relation where clueId in
+        <foreach collection="clueIds" open="(" item="clueId" close=")" separator=",">
+            #{clueId}
+        </foreach>
+    </delete>
+
+    <select id="pageList" resultType="com.nero.crm.vo.ClueVO">
+        select c.id, c.fullname, c.appellation, c.company, c.mphone, c.phone, c.source, u.name as owner, c.state
+        from tbl_clue c
+        join tbl_user u
+        on c.owner = u.uuid
+        <where>
+            <if test="fullname != null and fullname != ''">
+                c.fullname like concat("%", #{fullname}, "%")
+            </if>
+            <if test="company != null and company != ''">
+                c.company like concat("%", #{company}, "%")
+            </if>
+            <if test="mphone != null and mphone != ''">
+                c.mphone like concat("%", #{mphone}, "%")
+            </if>
+            <if test="phone != null and phone != ''">
+                c.phone like concat("%", #{phone}, "%")
+            </if>
+            <if test="state != null and state != ''">
+                c.state like concat("%", #{state}, "%")
+            </if>
+            <if test="source != null and source != ''">
+                c.source like concat("%", #{source}, "%")
+            </if>
+            <if test="owner != null and owner != ''">
+                u.name like concat("%", #{owner}, "%")
+            </if>
+        </where>
+        order by c.id
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+    <select id="getClueInfo" resultType="com.nero.crm.domain.Clue">
+        select * from tbl_clue where id = #{id}
+    </select>
+
+    <select id="getActivityRelation" resultType="com.nero.crm.vo.ActivityVO">
+        select a.id, a.name, a.startDate, a.endDate, u.name as owner
+        from tbl_clue_activity_relation tcar
+        join tbl_clue c
+        on tcar.clueId = c.id
+        join tbl_activity a
+        on tcar.activityId = a.id
+        join tbl_user u
+        on a.owner = u.uuid
+        where tcar.clueId = #{clueId}
+    </select>
+
+    <select id="checkExistsRelation" resultType="java.lang.Integer">
+        select count(1) from tbl_clue_activity_relation where clueId = #{clueId} and activityId = #{activityId}
+    </select>
+
+    <select id="getCountAboutActivityRelation" resultType="java.lang.Integer">
+        select count(1) from tbl_clue_activity_relation where clueId = #{clueId}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(1) from tbl_clue
+    </select>
+
+
+</mapper>

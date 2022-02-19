@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nero.crm.mapper.ActivityMapper">
+
+    <insert id="insertActivity">
+        insert into tbl_activity(owner, name, startDate, endDate, cost, description, createTime, createBy)
+        values (#{owner}, #{name}, #{startDate}, #{endDate}, #{cost}, #{description}, #{createTime}, #{createBy})
+    </insert>
+
+    <insert id="insertManyData">
+        insert into tbl_activity(owner, name, startDate, endDate, cost, description, createTime, createBy)
+        values
+        <foreach collection="activityList" item="activity" index="index" separator=",">
+            (
+                #{activity.owner}, #{activity.name}, #{activity.startDate}, #{activity.endDate},
+                #{activity.cost}, #{activity.description}, #{activity.createTime}, #{activity.createBy}
+            )
+        </foreach>
+    </insert>
+
+    <update id="editActivity">
+        update tbl_activity
+        <trim prefix="set" suffixOverrides=",">
+            <if test="owner != null and owner != ''">
+                owner = #{owner},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="startDate != null and startDate != ''">
+                startDate = #{startDate},
+            </if>
+            <if test="endDate != null and endDate != ''">
+                endDate = #{endDate},
+            </if>
+            <if test="cost != null and cost != ''">
+                cost = #{cost},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="editTime != null and editTime != ''">
+                editTime = #{editTime},
+            </if>
+            <if test="editBy != null and editBy != ''">
+                editBy = #{editBy}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteActivity">
+        delete from tbl_activity where id = #{id}
+    </delete>
+
+    <delete id="deleteActivityList">
+        delete from tbl_activity where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getActivityInfo" resultType="com.nero.crm.domain.Activity">
+        select * from tbl_activity where id = #{id}
+    </select>
+
+    <select id="pageList" resultType="com.nero.crm.vo.ActivityVO">
+        select a.id, a.name, u.name as owner, a.startDate, a.endDate from tbl_activity a
+        join tbl_user u
+        on a.owner = u.uuid
+        <where>
+            <if test="name != null and name != ''">
+                a.name like concat("%", #{name}, "%")
+            </if>
+            <if test="owner != null and owner != ''">
+                a.owner like concat("%", #{owner}, "%")
+            </if>
+            <if test="startDate != null and startDate != ''">
+                a.startDate like concat("%", #{startDate}, "%")
+            </if>
+            <if test="endDate != null and endDate != ''">
+                a.endDate like concat("%", #{endDate}, "%")
+            </if>
+        </where>
+        order by a.id
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(1) from tbl_activity
+    </select>
+
+    <select id="getAllActivity" resultType="com.nero.crm.vo.ActivityVO">
+        select a.id, a.name, u.name as owner, a.startDate, a.endDate
+        from tbl_activity a
+        join tbl_user u
+        on a.owner = u.uuid
+    </select>
+
+
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nero.crm.mapper.ContactsMapper">
+    <insert id="insertContact">
+        insert into tbl_contacts(owner,source,customerId,fullname,appellation,email,
+                                 mphone,job,birth,createBy,createTime,description,contactSummary,nextContactTime,address)
+        values (#{owner},#{source},#{customerId},#{fullname},#{appellation},#{email},
+                #{mphone},#{job},#{birth},#{createBy},#{createTime},#{description},#{contactSummary},#{nextContactTime},#{address})
+    </insert>
+    <insert id="insert10">
+        insert into tbl_contacts(owner,source,customerId,fullname,appellation,email,
+                                 mphone,job,birth,createBy,createTime,description,contactSummary,nextContactTime,address)
+        values
+        <foreach collection="contactsList" item="contacts" separator=",">
+            (
+                #{contacts.owner},
+                #{contacts.source},
+                #{contacts.customerId},
+                #{contacts.fullname},
+                #{contacts.appellation},
+                #{contacts.email},
+                #{contacts.mphone},
+                #{contacts.job},
+                #{contacts.birth},
+                #{contacts.createBy},
+                #{contacts.createTime},
+                #{contacts.description},
+                #{contacts.contactSummary},
+                #{contacts.nextContactTime},
+                #{contacts.address}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertContactsByClue">
+        insert into tbl_contacts(owner,source,customerId,fullname,appellation,email,
+                                 mphone,job,createBy,createTime,description,contactSummary,nextContactTime,address)
+        (
+            select c.owner, c.source, cus.id, c.fullname, c.appellation, c.email, c.mphone, c.job, c.createBy, NOW() as createTime, c.description, c.contactSummary, c.nextContactTime, c.address
+            from tbl_clue c
+            join tbl_customer cus
+            on c.company = cus.`name`
+            where c.id = #{clueId})
+    </insert>
+
+    <update id="editContact">
+        update tbl_contacts
+        <trim prefix="set">
+            <if test="owner != null and owner != ''">
+                owner = #{owner},
+            </if>
+            <if test="fullname != null and fullname != ''">
+                fullname = #{fullname},
+            </if>
+            <if test="customerId != null and customerId != ''">
+                customerId = #{customerId},
+            </if>
+            <if test="appellation != null and appellation != ''">
+                appellation = #{appellation},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="job != null and job != ''">
+                job = #{job},
+            </if>
+            <if test="birth != null and birth != ''">
+                birth = #{birth},
+            </if>
+            <if test="source != null and source != ''">
+                `source` = #{source},
+            </if>
+            <if test="mphone != null and mphone != ''">
+                mphone = #{mphone},
+            </if>
+            <if test="contactSummary != null and contactSummary != ''">
+                contactSummary = #{contactSummary},
+            </if>
+            <if test="nextContactTime != null and nextContactTime != ''">
+                nextContactTime = #{nextContactTime},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+        </trim>
+        editTime = #{editTime}, editBy = #{editBy}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteContactsByCustomerId">
+        delete from tbl_contacts where customerId = #{customerId}
+    </delete>
+
+    <delete id="deleteContactsByCustomerIds">
+        delete from tbl_contacts where customerId in
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+    </delete>
+
+    <delete id="deleteContactById">
+        delete from tbl_contacts where id = #{id}
+    </delete>
+
+    <delete id="deleteAnyContactByIds">
+        delete from tbl_contacts where id in
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteRelationAboutActivity">
+        delete from tbl_contacts_activity_relation where contactsId = #{contactsId}
+    </delete>
+
+    <delete id="deleteRelationAboutActivityByContactsIds">
+        delete from tbl_contacts_activity_relation where contactsId in
+            <foreach collection="contactsIds" item="contactsId" open="(" separator="," close=")">
+                #{contactsId}
+            </foreach>
+    </delete>
+
+    <select id="pageList" resultType="com.nero.crm.vo.ContactsVO">
+        select con.id, con.fullname, cus.name as customerName, u.name as owner, con.source, con.birth
+        from tbl_contacts con
+        join tbl_user u
+        on con.owner = u.uuid
+        join tbl_customer cus
+        on con.customerId = cus.id
+        <where>
+            <if test="name != null and name != ''">
+                cus.name like concat("%", #{name}, "%")
+            </if>
+            <if test="owner != null and owner != ''">
+                u.name like concat("%", #{owner}, "%")
+            </if>
+            <if test="fullname != null and fullname != ''">
+                con.fullname like concat("%", #{fullname}, "%")
+            </if>
+            <if test="source != null and source != ''">
+                con.source like concat("%", #{source}, "%")
+            </if>
+            <if test="birth != null and birth != ''">
+                c.onbirth like concat("%", #{birth}, "%")
+            </if>
+        </where>
+        order by con.id
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+    <select id="getInfoById" resultType="com.nero.crm.domain.Contacts">
+        select * from tbl_contacts where id = #{id}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(1) from tbl_contacts
+    </select>
+
+
+</mapper>
