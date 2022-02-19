@@ -44,10 +44,10 @@
     </insert>
 
     <insert id="insertContactsByClue" useGeneratedKeys="true" keyProperty="id">
-        insert into tbl_contacts(owner,source,fullname,appellation,email,
+        insert into tbl_contacts(owner,source,customerId, fullname,appellation,email,
                                  mphone,job,createBy,createTime,description,contactSummary,nextContactTime,address)
-        values(#{owner},#{source},#{fullname},#{appellation},#{email},#{mphone},
-               #{job},#{createBy},#{createTime},#{description},#{contactSummary},#{nextContactTime},#{address})
+        values(#{clue.owner},#{clue.source},#{customerId}, #{clue.fullname},#{clue.appellation},#{clue.email},
+               #{clue.mphone},#{clue.job},#{clue.createBy},#{clue.createTime},#{clue.description},#{clue.contactSummary},#{clue.nextContactTime},#{clue.address})
     </insert>
 
     <update id="editContact">

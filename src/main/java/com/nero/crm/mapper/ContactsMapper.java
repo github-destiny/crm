@@ -45,7 +45,7 @@ public interface ContactsMapper {
 
     int insertContactsByClueId(Integer clueId);
 
-    int insertContactsByClue(Clue clue);
+    int insertContactsByClue(@Param("clue") Clue clue, @Param("customerId") Integer customerId);
 
     List<ContactsVO> getContactsListByCustomerId(Integer customerId);
 

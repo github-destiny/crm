@@ -10,6 +10,10 @@
         insert into tbl_test(name, age) values(#{name}, #{age})
     </insert>
 
+    <insert id="insertContactsActivityRelation">
+        insert into tbl_contacts_activity_relation(contactsId, activityId) values(#{contactsId}, #{activityId})
+    </insert>
+
     <update id="clearTables">
         truncate table tbl_activity;
         truncate table tbl_clue;

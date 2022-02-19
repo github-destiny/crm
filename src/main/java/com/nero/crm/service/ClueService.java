@@ -141,7 +141,7 @@ public class ClueService {
             log.info("customerId-->{}", customerId);
 
             // 根据线索生成contacts
-            contactsMapper.insertContactsByClue(clue);
+            contactsMapper.insertContactsByClue(clue, customerId);
             int contactsId = clue.getId();
             clue.setCreateTime(DateTimeUtil.getDate());
             log.info("contactsId-->{}", contactsId);

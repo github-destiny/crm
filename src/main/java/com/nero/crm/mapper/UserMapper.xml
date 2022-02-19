@@ -25,7 +25,7 @@
     </select>
 
     <select id="selectUserInfo" resultType="com.nero.crm.domain.User">
-        select uuid, loginAct, name, email, expireTime, allowIps from tbl_user where loginAct = #{loginAct}
+        select id, uuid, loginAct, name, email, expireTime, allowIps from tbl_user where loginAct = #{loginAct}
     </select>
 
 </mapper>

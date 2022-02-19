@@ -24,4 +24,6 @@ public interface TestMapper {
      */
     int clearTables();
 
+    int insertContactsActivityRelation(@Param("contactsId") Integer contactsId, @Param("activityId") Integer activityId);
+
 }

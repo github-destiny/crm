@@ -134,6 +134,12 @@ public class TestController {
         log.info("test.id:{}", test.getId());
         return getMap(200, Integer.toString(insert), 1);
     }
+    
+    private void insertContactsActivity(){
+        for (int i = 1, j = 10; i <= 10 && j >= 1 ; i++, j--) {
+            testMapper.insertContactsActivityRelation(i, j);
+        }
+    }
 
     @GetMapping("/init")
     public Map<String, Object> init(){
@@ -156,9 +162,11 @@ public class TestController {
         // contacts
         contacts();
         map.put("op6", "insert tbl_contacts....success!");
+        insertContactsActivity();
+        map.put("op7", "insert tbl_contacts_activity_relation....success!");
         // tran
         tran();
-        map.put("op7", "insert tbl_tran....success!");
+        map.put("op8", "insert tbl_tran....success!");
         map.put("res", "all operator completed...");
         map.put("status", 200);
         return map;
