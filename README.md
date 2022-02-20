@@ -1942,3 +1942,784 @@ id：交易id
     "timestamp": 1645271615593
 }
 ```
+
+## 数据字典模块（/tran）
+
+### 新增字典类型
+
+example:
+
+```
+127.0.0.1:8080/dic/insert/type?code=111&name=1112&description=1113
+```
+
+URI：
+
+```
+POST /insert/type
+```
+
+参数：
+
+```
+id // 主键，系统自动生成，
+code // 必选参数，必须英文，类型代码
+name // 类型名称
+description // 类型描述
+```
+
+响应结果：
+
+```json
+{
+    "result": "insert type success",
+    "status": 200,
+    "timestamp": 1645340596752
+}
+```
+
+
+
+### 新增字典数据
+
+example:
+
+```
+127.0.0.1:8080/dic/insert/value?value=222&text=222&orderNo=5&typeCode=111
+```
+
+URI：
+
+```
+POST /insert/value
+```
+
+参数： 
+
+```
+id // id，主键，系统自动生成
+value // 字典数据值
+text // 字典数据文本，等同于value
+orderNo // 排序编号
+typeCode // 类型代码，等同于type的code属性，必选参数
+```
+
+响应结果：
+
+```json
+{
+    "result": "insert value success",
+    "status": 200,
+    "timestamp": 1645340983011
+}
+```
+### 修改字典类型
+
+example:
+
+```
+127.0.0.1:8080/dic/edit/type?code=111&name=2222&id=8
+```
+
+URI：
+
+```
+POST /edit/type
+```
+
+参数：
+
+```
+id // 必选参数，类型的id
+code // 必选参数，必须英文，类型代码，修改了code后，所有与该code相关的value也会被修改
+name // 类型名称
+description // 类型描述
+```
+
+响应结果：
+
+```json
+{
+    "result": "update type success!",
+    "status": 200,
+    "timestamp": 1645341494095
+}
+```
+### 修改字典数据
+
+exmaple:
+
+```
+127.0.0.1:8080/dic/edit/value?typeCode=333&value=333
+```
+
+URI：
+
+```
+POST /edit/value
+```
+
+参数：
+
+```
+typeCode // 必选参数，该value对应的类型
+value // 字典数据值
+text // 字典数据文本，等同于value
+orderNo // 排序编号
+```
+
+响应结果：
+
+```json
+{
+    "result": "update value success",
+    "status": 200,
+    "timestamp": 1645341689263
+}
+```
+### 删除字典类型
+
+example:
+
+```
+127.0.0.1:8080/dic/delete/type/333
+```
+
+URI：
+
+```
+POST /delete/type/{id}
+```
+
+参数：
+
+```
+id：字典类型id，必选参数
+```
+
+响应结果：
+
+```json
+{
+    "result": "delete type success",
+    "status": 200,
+    "timestamp": 1645341744182
+}
+```
+### 删除字典数据
+
+URI：
+
+```
+POST /delete/value/{id}
+```
+
+参数：
+
+```
+id：字典数据的id
+```
+
+响应结果：
+
+```json
+{
+    "result": "delete value success",
+    "status": 200,
+    "timestamp": 1645341795345
+}
+```
+### 批量删除字典类型
+
+URI：
+
+```
+POST /delete/type/many
+```
+
+参数：
+
+```
+codes：字典类型的code属性的集合
+```
+
+响应结果：
+
+```json
+{
+    "result": "delete types success",
+    "status": 200,
+    "timestamp": 1645341744182
+}
+```
+### 批量删除字典数据
+
+URI：
+
+```
+POST /delete/value/many
+```
+
+参数：
+
+```
+ids：字典数据的id的集合
+```
+
+响应结果：
+
+```json
+{
+    "result": "delete values success",
+    "status": 200,
+    "timestamp": 1645341795345
+}
+```
+### 根据字典类型获取字典数据
+
+example:
+
+```
+127.0.0.1:8080/dic/values/source
+```
+
+URI：
+
+```
+GET /values/{typeCode}
+```
+
+参数：
+
+```
+typeCode：字典数据的类型值
+```
+
+响应结果：
+
+```json
+{
+    "result": [
+        {
+            "id": 2,
+            "value": "销售邮件",
+            "text": "销售邮件",
+            "orderNo": 8,
+            "typeCode": "source"
+        },
+        {
+            "id": 3,
+            "value": "交易会",
+            "text": "交易会",
+            "orderNo": 11,
+            "typeCode": "source"
+        },
+        {
+            "id": 14,
+            "value": "聊天",
+            "text": "聊天",
+            "orderNo": 14,
+            "typeCode": "source"
+        },
+        {
+            "id": 16,
+            "value": "广告",
+            "text": "广告",
+            "orderNo": 1,
+            "typeCode": "source"
+        },
+        {
+            "id": 17,
+            "value": "合作伙伴研讨会",
+            "text": "合作伙伴研讨会",
+            "orderNo": 9,
+            "typeCode": "source"
+        },
+        {
+            "id": 22,
+            "value": "web调研",
+            "text": "web调研",
+            "orderNo": 13,
+            "typeCode": "source"
+        },
+        {
+            "id": 23,
+            "value": "合作伙伴",
+            "text": "合作伙伴",
+            "orderNo": 6,
+            "typeCode": "source"
+        },
+        {
+            "id": 25,
+            "value": "内部研讨会",
+            "text": "内部研讨会",
+            "orderNo": 10,
+            "typeCode": "source"
+        },
+        {
+            "id": 35,
+            "value": "推销电话",
+            "text": "推销电话",
+            "orderNo": 2,
+            "typeCode": "source"
+        },
+        {
+            "id": 38,
+            "value": "web下载",
+            "text": "web下载",
+            "orderNo": 12,
+            "typeCode": "source"
+        },
+        {
+            "id": 41,
+            "value": "员工介绍",
+            "text": "员工介绍",
+            "orderNo": 3,
+            "typeCode": "source"
+        },
+        {
+            "id": 45,
+            "value": "在线商场",
+            "text": "在线商场",
+            "orderNo": 5,
+            "typeCode": "source"
+        },
+        {
+            "id": 46,
+            "value": "公开媒介",
+            "text": "公开媒介",
+            "orderNo": 7,
+            "typeCode": "source"
+        },
+        {
+            "id": 47,
+            "value": "外部介绍",
+            "text": "外部介绍",
+            "orderNo": 4,
+            "typeCode": "source"
+        }
+    ],
+    "status": 200,
+    "timestamp": 1645342141422
+}
+```
+### 获取全部字典类型
+
+URI：
+
+```
+GET /type/all
+```
+
+参数：
+
+```
+无
+```
+
+响应结果：
+
+```json
+{
+    "result": [
+        {
+            "id": 1,
+            "code": "appellation",
+            "name": "称呼",
+            "description": ""
+        },
+        {
+            "id": 2,
+            "code": "clueState",
+            "name": "线索状态",
+            "description": ""
+        },
+        {
+            "id": 3,
+            "code": "returnPriority",
+            "name": "回访优先级",
+            "description": ""
+        },
+        {
+            "id": 4,
+            "code": "returnState",
+            "name": "回访状态",
+            "description": ""
+        },
+        {
+            "id": 5,
+            "code": "source",
+            "name": "来源",
+            "description": ""
+        },
+        {
+            "id": 6,
+            "code": "stage",
+            "name": "阶段",
+            "description": ""
+        },
+        {
+            "id": 7,
+            "code": "transactionType",
+            "name": "交易类型",
+            "description": ""
+        }
+    ],
+    "status": 200,
+    "timestamp": 1645342231026
+}
+```
+### 获取全部字典数据
+
+URI：
+
+```
+GET /value/all
+```
+
+参数：
+
+```
+无
+```
+
+响应结果：
+
+```json
+{
+    "result": [
+        {
+            "id": 1,
+            "value": "虚假线索",
+            "text": "虚假线索",
+            "orderNo": 4,
+            "typeCode": "clueState"
+        },
+        {
+            "id": 2,
+            "value": "销售邮件",
+            "text": "销售邮件",
+            "orderNo": 8,
+            "typeCode": "source"
+        },
+        {
+            "id": 3,
+            "value": "交易会",
+            "text": "交易会",
+            "orderNo": 11,
+            "typeCode": "source"
+        },
+        {
+            "id": 4,
+            "value": "最高",
+            "text": "最高",
+            "orderNo": 2,
+            "typeCode": "returnPriority"
+        },
+        {
+            "id": 5,
+            "value": "教授",
+            "text": "教授",
+            "orderNo": 5,
+            "typeCode": "appellation"
+        },
+        {
+            "id": 6,
+            "value": "将来联系",
+            "text": "将来联系",
+            "orderNo": 2,
+            "typeCode": "clueState"
+        },
+        {
+            "id": 7,
+            "value": "丢失线索",
+            "text": "丢失线索",
+            "orderNo": 5,
+            "typeCode": "clueState"
+        },
+        {
+            "id": 8,
+            "value": "未启动",
+            "text": "未启动",
+            "orderNo": 1,
+            "typeCode": "returnState"
+        },
+        {
+            "id": 9,
+            "value": "07成交",
+            "text": "07成交",
+            "orderNo": 7,
+            "typeCode": "stage"
+        },
+        {
+            "id": 10,
+            "value": "试图联系",
+            "text": "试图联系",
+            "orderNo": 1,
+            "typeCode": "clueState"
+        },
+        {
+            "id": 11,
+            "value": "博士",
+            "text": "博士",
+            "orderNo": 4,
+            "typeCode": "appellation"
+        },
+        {
+            "id": 12,
+            "value": "01资质审查",
+            "text": "01资质审查",
+            "orderNo": 1,
+            "typeCode": "stage"
+        },
+        {
+            "id": 13,
+            "value": "08丢失的线索",
+            "text": "08丢失的线索",
+            "orderNo": 8,
+            "typeCode": "stage"
+        },
+        {
+            "id": 14,
+            "value": "聊天",
+            "text": "聊天",
+            "orderNo": 14,
+            "typeCode": "source"
+        },
+        {
+            "id": 15,
+            "value": "低",
+            "text": "低",
+            "orderNo": 3,
+            "typeCode": "returnPriority"
+        },
+        {
+            "id": 16,
+            "value": "广告",
+            "text": "广告",
+            "orderNo": 1,
+            "typeCode": "source"
+        },
+        {
+            "id": 17,
+            "value": "合作伙伴研讨会",
+            "text": "合作伙伴研讨会",
+            "orderNo": 9,
+            "typeCode": "source"
+        },
+        {
+            "id": 18,
+            "value": "先生",
+            "text": "先生",
+            "orderNo": 1,
+            "typeCode": "appellation"
+        },
+        {
+            "id": 19,
+            "value": "高",
+            "text": "高",
+            "orderNo": 1,
+            "typeCode": "returnPriority"
+        },
+        {
+            "id": 20,
+            "value": "夫人",
+            "text": "夫人",
+            "orderNo": 2,
+            "typeCode": "appellation"
+        },
+        {
+            "id": 21,
+            "value": "09因竞争丢失关闭",
+            "text": "09因竞争丢失关闭",
+            "orderNo": 9,
+            "typeCode": "stage"
+        },
+        {
+            "id": 22,
+            "value": "web调研",
+            "text": "web调研",
+            "orderNo": 13,
+            "typeCode": "source"
+        },
+        {
+            "id": 23,
+            "value": "合作伙伴",
+            "text": "合作伙伴",
+            "orderNo": 6,
+            "typeCode": "source"
+        },
+        {
+            "id": 24,
+            "value": "未联系",
+            "text": "未联系",
+            "orderNo": 6,
+            "typeCode": "clueState"
+        },
+        {
+            "id": 25,
+            "value": "内部研讨会",
+            "text": "内部研讨会",
+            "orderNo": 10,
+            "typeCode": "source"
+        },
+        {
+            "id": 26,
+            "value": "进行中",
+            "text": "进行中",
+            "orderNo": 3,
+            "typeCode": "returnState"
+        },
+        {
+            "id": 27,
+            "value": "已有业务",
+            "text": "已有业务",
+            "orderNo": 1,
+            "typeCode": "transactionType"
+        },
+        {
+            "id": 28,
+            "value": "已联系",
+            "text": "已联系",
+            "orderNo": 3,
+            "typeCode": "clueState"
+        },
+        {
+            "id": 29,
+            "value": "推迟",
+            "text": "推迟",
+            "orderNo": 2,
+            "typeCode": "returnState"
+        },
+        {
+            "id": 30,
+            "value": "新业务",
+            "text": "新业务",
+            "orderNo": 2,
+            "typeCode": "transactionType"
+        },
+        {
+            "id": 31,
+            "value": "完成",
+            "text": "完成",
+            "orderNo": 4,
+            "typeCode": "returnState"
+        },
+        {
+            "id": 32,
+            "value": "需要条件",
+            "text": "需要条件",
+            "orderNo": 7,
+            "typeCode": "clueState"
+        },
+        {
+            "id": 33,
+            "value": "02需求分析",
+            "text": "02需求分析",
+            "orderNo": 2,
+            "typeCode": "stage"
+        },
+        {
+            "id": 34,
+            "value": "等待某人",
+            "text": "等待某人",
+            "orderNo": 5,
+            "typeCode": "returnState"
+        },
+        {
+            "id": 35,
+            "value": "推销电话",
+            "text": "推销电话",
+            "orderNo": 2,
+            "typeCode": "source"
+        },
+        {
+            "id": 36,
+            "value": "常规",
+            "text": "常规",
+            "orderNo": 5,
+            "typeCode": "returnPriority"
+        },
+        {
+            "id": 37,
+            "value": "05提案/报价",
+            "text": "05提案/报价",
+            "orderNo": 5,
+            "typeCode": "stage"
+        },
+        {
+            "id": 38,
+            "value": "web下载",
+            "text": "web下载",
+            "orderNo": 12,
+            "typeCode": "source"
+        },
+        {
+            "id": 39,
+            "value": "03价值建议",
+            "text": "03价值建议",
+            "orderNo": 3,
+            "typeCode": "stage"
+        },
+        {
+            "id": 40,
+            "value": "最低",
+            "text": "最低",
+            "orderNo": 4,
+            "typeCode": "returnPriority"
+        },
+        {
+            "id": 41,
+            "value": "员工介绍",
+            "text": "员工介绍",
+            "orderNo": 3,
+            "typeCode": "source"
+        },
+        {
+            "id": 42,
+            "value": "04确定决策者",
+            "text": "04确定决策者",
+            "orderNo": 4,
+            "typeCode": "stage"
+        },
+        {
+            "id": 43,
+            "value": "女士",
+            "text": "女士",
+            "orderNo": 3,
+            "typeCode": "appellation"
+        },
+        {
+            "id": 44,
+            "value": "06谈判/复审",
+            "text": "06谈判/复审",
+            "orderNo": 6,
+            "typeCode": "stage"
+        },
+        {
+            "id": 45,
+            "value": "在线商场",
+            "text": "在线商场",
+            "orderNo": 5,
+            "typeCode": "source"
+        },
+        {
+            "id": 46,
+            "value": "公开媒介",
+            "text": "公开媒介",
+            "orderNo": 7,
+            "typeCode": "source"
+        },
+        {
+            "id": 47,
+            "value": "外部介绍",
+            "text": "外部介绍",
+            "orderNo": 4,
+            "typeCode": "source"
+        }
+    ],
+    "status": 200,
+    "timestamp": 1645342203831
+}
+```
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nero.crm.mapper.DicMapper">
+
+    <insert id="newDicType">
+        insert into tbl_dic_type(code, name, description) values(#{code}, #{name}, #{description})
+    </insert>
+
+    <insert id="insertDicValue">
+        insert into tbl_dic_value(value, text, orderNo, typeCode)
+        values(#{value}, #{text}, #{orderNo}, #{typeCode})
+    </insert>
+
+    <update id="editDiCType">
+        update tbl_dic_type
+        <set>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="editDicValue">
+        update tbl_dic_value
+        <set>
+            <if test="value != null and value != ''">
+                value = #{value},
+            </if>
+            <if test="text != null and text != ''">
+                text = #{text},
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                orderNo = #{orderNo}
+            </if>
+        </set>
+        where typeCode = #{typeCode}
+    </update>
+
+    <update id="updateDicValueByDicTypeCode">
+        update tbl_dic_value set typeCode = #{newCode} where typeCode = #{oldCode}
+    </update>
+
+    <delete id="deleteDicType">
+        delete from tbl_dic_type where code = #{code};
+    </delete>
+
+    <delete id="deleteAnyDicType">
+        delete from tbl_dic_type where code in
+        <foreach collection="codes" item="code" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </delete>
+
+    <delete id="deleteDicValue">
+        delete from tbl_dic_value where id = #{dicValueId}
+    </delete>
+
+    <delete id="deleteAnyDicValue">
+        delete from tbl_dic_value where id in
+        <foreach collection="dicValueIds" item="divValueId" open="(" separator="," close=")">
+            #{divValueId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteDicValueByTypeCode">
+        delete from tbl_dic_value where typeCode = #{typeCode}
+    </delete>
+
+    <delete id="deleteDicValueByTypeCodeList">
+        delete from tbl_dic_value where typeCode in
+        <foreach collection="typeCodeList" item="typeCode" open="(" separator="," close=")">
+            #{typeCode}
+        </foreach>
+    </delete>
+
+    <select id="isExistType" resultType="java.lang.Integer">
+        select count(1) from tbl_dic_type where code = #{code}
+    </select>
+
+    <select id="getDicValueByDicTypeCode" resultType="com.nero.crm.domain.DicValue">
+        select id, value, text, orderNo, typeCode from tbl_dic_value where typeCode = #{typeCode}
+    </select>
+
+    <select id="getAllType" resultType="com.nero.crm.domain.DicType">
+        select id, code, name, description from tbl_dic_type
+    </select>
+
+    <select id="getAllDicValues" resultType="com.nero.crm.domain.DicValue">
+        select id, value, text, orderNo, typeCode from tbl_dic_value
+    </select>
+
+    <select id="isExistValue" resultType="java.lang.Integer">
+        select count(1) from tbl_dic_value where text = #{text} and value = #{value} and typeCode = #{typeCode}
+    </select>
+
+    <select id="getDicTypeById" resultType="com.nero.crm.domain.DicType">
+        select id, code, name, description from tbl_dic_type where id = #{dicTypeId}
+    </select>
+
+
+</mapper>

@@ -1,15 +1,22 @@
 package com.nero.crm.interceptor;
 
 import com.nero.crm.constant.StatusCode;
+import com.nero.crm.domain.DicType;
+import com.nero.crm.domain.DicValue;
 import com.nero.crm.util.JSONUtil;
 import com.nero.crm.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Nero Claudius
@@ -19,8 +26,36 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
 
+    private static final String DIC_TYPE_PATH = "/dic/type/all";
+    private static final String DIC_VALUE_PATH = "/dic/value/all";
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String requestURI = request.getRequestURI();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        // 如果是获取字典类型请求，从缓存中取
+        ServletContext sc = request.getServletContext();
+        if (DIC_TYPE_PATH.equals(requestURI)){
+            List<DicType> typeList = (List<DicType>) sc.getAttribute("dicType");
+            if (null != typeList) {
+                JSONUtil.printJsonObj(response, typeList);
+                return false;
+            }
+        }
+        // 获取数据字典数据
+        if (DIC_VALUE_PATH.equals(requestURI)) {
+            Map<String, List<DicValue>> map = (Map<String, List<DicValue>>)sc.getAttribute("dicValue");
+            //Set<String> keySet = map.keySet();
+            //for (String s : keySet) {
+            //    System.out.println(s);
+            //    System.out.println(map.get(s));
+            //}
+            if (null != map){
+                JSONUtil.printJsonObj(response, map);
+                return false;
+            }
+        }
         // 使用cookie保存uuid
         Cookie[] cookies = request.getCookies();
         Object uuidAct = null;
