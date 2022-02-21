@@ -67,11 +67,14 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 使用cookie保存uuid
         Cookie[] cookies = request.getCookies();
         Object uuidAct = null;
-        for (Cookie cookie : cookies) {
-            // 如果通过uuid验证成功，则直接放行
-            if ("uuid".equals(cookie.getName())){
-                String uuid = cookie.getValue();
-                uuidAct = request.getSession().getAttribute(uuid);
+
+        if (null != cookies) {
+            for (Cookie cookie : cookies) {
+                // 如果通过uuid验证成功，则直接放行
+                if ("uuid".equals(cookie.getName())){
+                    String uuid = cookie.getValue();
+                    uuidAct = request.getSession().getAttribute(uuid);
+                }
             }
         }
         if (null != uuidAct){
