@@ -3,6 +3,9 @@ package com.nero.crm.service;
 import com.nero.crm.domain.Activity;
 import com.nero.crm.exception.ActivityException;
 import com.nero.crm.mapper.ActivityMapper;
+import com.nero.crm.mapper.ClueMapper;
+import com.nero.crm.mapper.ContactsMapper;
+import com.nero.crm.mapper.TranMapper;
 import com.nero.crm.vo.ActivityVO;
 import com.nero.crm.vo.PaginationVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,15 @@ public class ActivityService {
     @Autowired
     private ActivityMapper activityMapper;
 
+    @Autowired
+    private ClueMapper clueMapper;
+
+    @Autowired
+    private ContactsMapper contactsMapper;
+
+    @Autowired
+    private TranMapper tranMapper;
+
     public int insertActivity(Activity activity){
         int i = activityMapper.insertActivity(activity);
         if (i != 1)
@@ -37,8 +49,16 @@ public class ActivityService {
         return i;
     }
 
+    @Transactional
     public int deleteActivity(int id){
+        // 删除市场活动
         int i = activityMapper.deleteActivity(id);
+        // 删除与clue的关联
+        clueMapper.deleteRelationActivity(id);
+        // 删除与contacts的关联
+        contactsMapper.deleteRelationActivity(id);
+        // 删除与tran的关联
+        tranMapper.updateTranRelationActivity(id);
         if (i != 1)
             throw new ActivityException("市场活动删除失败!");
         return i;
@@ -47,6 +67,12 @@ public class ActivityService {
     @Transactional
     public int deleteActivities(List<Integer> ids){
         int i = activityMapper.deleteActivityList(ids);
+        // 删除与clue的关联
+        clueMapper.deleteRelationActivities(ids);
+        // 删除与contacts的关联
+        contactsMapper.deleteRelationActivities(ids);
+        // 删除与tran的关联
+        tranMapper.updateTranRelationActivities(ids);
         if (i != ids.size())
             throw new ActivityException("删除"+ ids.size() +"条数据失败");
         return i;

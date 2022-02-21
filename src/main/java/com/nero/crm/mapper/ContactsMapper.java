@@ -56,4 +56,18 @@ public interface ContactsMapper {
      * @return
      */
     int deleteRelationByAIdContactsId(@Param("activityId") Integer activityId, @Param("contactsId") Integer contactsId);
+
+    /**
+     * 删除市场活动与contacts的关联
+     * @param activityId
+     * @return
+     */
+    int deleteRelationActivity(Integer activityId);
+
+    /**
+     * 批量删除关联
+     * @param activityIds
+     * @return
+     */
+    int deleteRelationActivities(@Param("activityIds") List<Integer> activityIds);
 }

@@ -7,15 +7,13 @@ import com.nero.crm.service.UserService;
 import com.nero.crm.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Nero Claudius
@@ -31,6 +29,9 @@ public class WebInitListener implements ServletContextListener {
 
     @Autowired
     private UserService userService;
+
+    @Value("${possible.list}")
+    private String possibleList;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -58,10 +59,20 @@ public class WebInitListener implements ServletContextListener {
         }
         // 设置dicValue缓存
         sc.setAttribute("dicValue", map);
+        log.info("数据字典缓存成功");
         // 设置所有者列表缓存
         List<UserVO> ownerList = userService.getAllUserBaseInfo();
         sc.setAttribute("ownerList", ownerList);
-        log.info("数据字典缓存成功");
+        log.info("所有者列表缓存成功");
+        // 处理交易可能性
+        String[] possibles = possibleList.split(",");
+        Map<String, Integer> possibleMap = new HashMap<>();
+        for (String possible : possibles) {
+            String[] split = possible.split("=");
+            possibleMap.put(split[0], Integer.parseInt(split[1]));
+        }
+        sc.setAttribute("possibleMap", possibleMap);
+        log.info("交易可能性列表缓存成功");
     }
 
     @Override

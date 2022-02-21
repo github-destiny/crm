@@ -138,20 +138,17 @@ public class ClueService {
             // 根据线索生成customer
             customerMapper.insertCustomerByClue(clue);
             int customerId = clue.getId();
-            log.info("customerId-->{}", customerId);
 
             // 根据线索生成contacts
             contactsMapper.insertContactsByClue(clue, customerId);
             int contactsId = clue.getId();
             clue.setCreateTime(DateTimeUtil.getDate());
-            log.info("contactsId-->{}", contactsId);
 
             // 根据线索生成交易信息
             if (flag) {
                 clue.setCreateTime(DateTimeUtil.getDate());
                 tranMapper.insertTranByClue(clue);
                 int tranId = clue.getId();
-                log.info("tranId-->{}", tranId);
                 map.put("customerId", customerId);
                 map.put("contactsId", contactsId);
                 map.put("id", tranId);
@@ -162,6 +159,14 @@ public class ClueService {
         } catch (Exception e){
             throw new ClueException(e.getMessage());
         }
+    }
+
+    /**
+     * 根据activityId删除与线索对应的联系
+     * @param activityId
+     */
+    public void deleteRelationActivity(Integer activityId){
+        clueMapper.deleteRelationActivity(activityId);
     }
 
 

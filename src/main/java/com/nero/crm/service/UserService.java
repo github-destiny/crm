@@ -23,6 +23,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    private static final String ALLOW_IP = "*.*.*.*";
+
     /**
      * 登录校验
      * @param request
@@ -31,6 +33,11 @@ public class UserService {
     private void loginChecker(HttpServletRequest request, User user){
         String remoteHost = request.getRemoteHost();
         String allowIps = user.getAllowIps();
+        // 如果是管理员用户
+        if (allowIps.equals(ALLOW_IP)) {
+            // 直接放行
+            return;
+        }
         if (!allowIps.contains(remoteHost)){
             throw new LoginException("ip受限");
         }

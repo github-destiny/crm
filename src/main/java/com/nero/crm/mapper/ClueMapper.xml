@@ -114,6 +114,17 @@
         </foreach>
     </delete>
 
+    <delete id="deleteRelationActivity">
+        delete from tbl_clue_activity_relation where activityId = #{activityId}
+    </delete>
+
+    <delete id="deleteRelationActivities">
+        delete from tbl_clue_activity_relation where activityId in
+        <foreach collection="activityIds" open="(" separator="," close=")" item="activityId">
+            #{activityId}
+        </foreach>
+    </delete>
+
     <select id="pageList" resultType="com.nero.crm.vo.ClueVO">
         select c.id, c.fullname, c.appellation, c.company, c.mphone, c.phone, c.source, u.name as owner, c.state
         from tbl_clue c

@@ -101,6 +101,17 @@
                             stage = #{stage}, activityId = #{activityId} where id = #{id}
     </update>
 
+    <update id="updateTranRelationActivity">
+        update tbl_tran set activityId = null where activityId = #{activityId}
+    </update>
+
+    <update id="updateTranRelationActivities">
+        update tbl_tran set activityId = null where activityId in
+        <foreach collection="activityIds" open="(" separator="," close=")" item="activityId">
+            #{activityId}
+        </foreach>
+    </update>
+
     <delete id="deleteTranByCustomerId">
         delete from tbl_tran where customerId = #{customerId}
     </delete>

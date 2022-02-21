@@ -151,4 +151,18 @@ public interface TranMapper {
      */
     List<TranVO> getTranVOByContactsId(Integer contactsId);
 
+    /**
+     * 在某条市场活动被删除后，更新交易中的与这条市场活动相关的交易的activityId属性
+     * @param activityId
+     * @return
+     */
+    int updateTranRelationActivity(Integer activityId);
+
+    /**
+     * 批量修改activityId属性
+     * @param activityIds
+     * @return
+     */
+    int updateTranRelationActivities(@Param("activityIds") List<Integer> activityIds);
+
 }

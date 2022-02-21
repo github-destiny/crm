@@ -9,6 +9,8 @@ import com.nero.crm.vo.TranVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +28,10 @@ public class TranController {
     private TranService tranService;
 
     @PostMapping("/insert")
-    public Map<String, Object> insert(Tran tran){
+    public Map<String, Object> insert(Tran tran, HttpServletRequest request){
+        Map<String, Integer> map = (Map<String, Integer>) request.getServletContext().getAttribute("possibleMap");
+        Integer possible = map.get(tran.getStage());
+        tran.setPossible(possible);
         try {
             tranService.insertTran(tran);
             return MapUtil.getSuccessMap("insert success");

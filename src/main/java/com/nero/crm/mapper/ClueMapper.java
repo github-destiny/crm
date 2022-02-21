@@ -125,4 +125,18 @@ public interface ClueMapper {
      */
     int getTotal();
 
+    /**
+     * 根据activityId删除对应的关联，删除市场活动时联合使用
+     * @param activityId
+     * @return
+     */
+    int deleteRelationActivity(Integer activityId);
+
+    /**
+     * 批量删除关联
+     * @param activityIds
+     * @return
+     */
+    int deleteRelationActivities(@Param("activityIds") List<Integer> activityIds);
+
 }
