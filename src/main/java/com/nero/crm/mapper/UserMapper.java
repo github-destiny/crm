@@ -1,9 +1,12 @@
 package com.nero.crm.mapper;
 
 import com.nero.crm.domain.User;
+import com.nero.crm.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author Nero Claudius
@@ -41,5 +44,12 @@ public interface UserMapper {
      * @return
      */
     User selectUserInfo(String loginAct);
+
+    /**
+     * 填充用户列表
+     *
+     * @return
+     */
+    List<UserVO> selectAllUserBaseInfo();
 
 }

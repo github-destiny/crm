@@ -28,4 +28,8 @@
         select id, uuid, loginAct, name, email, expireTime, allowIps from tbl_user where loginAct = #{loginAct}
     </select>
 
+    <select id="selectAllUserBaseInfo" resultType="com.nero.crm.vo.UserVO">
+        select id, uuid, name from tbl_user
+    </select>
+
 </mapper>

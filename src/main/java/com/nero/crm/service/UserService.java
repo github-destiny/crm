@@ -5,10 +5,12 @@ import com.nero.crm.exception.EditException;
 import com.nero.crm.exception.LoginException;
 import com.nero.crm.mapper.UserMapper;
 import com.nero.crm.util.DateTimeUtil;
+import com.nero.crm.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author Nero Claudius
@@ -80,6 +82,10 @@ public class UserService {
 
     public User getUserInfo(String loginAct){
         return userMapper.selectUserInfo(loginAct);
+    }
+
+    public List<UserVO> getAllUserBaseInfo(){
+        return userMapper.selectAllUserBaseInfo();
     }
 
 

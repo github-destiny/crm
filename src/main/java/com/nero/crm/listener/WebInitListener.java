@@ -3,6 +3,8 @@ package com.nero.crm.listener;
 import com.nero.crm.domain.DicType;
 import com.nero.crm.domain.DicValue;
 import com.nero.crm.service.DicService;
+import com.nero.crm.service.UserService;
+import com.nero.crm.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,8 @@ public class WebInitListener implements ServletContextListener {
     @Autowired
     private DicService dicService;
 
+    @Autowired
+    private UserService userService;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -54,6 +58,9 @@ public class WebInitListener implements ServletContextListener {
         }
         // 设置dicValue缓存
         sc.setAttribute("dicValue", map);
+        // 设置所有者列表缓存
+        List<UserVO> ownerList = userService.getAllUserBaseInfo();
+        sc.setAttribute("ownerList", ownerList);
         log.info("数据字典缓存成功");
     }
 

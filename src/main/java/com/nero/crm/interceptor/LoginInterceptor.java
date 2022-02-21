@@ -5,6 +5,7 @@ import com.nero.crm.domain.DicType;
 import com.nero.crm.domain.DicValue;
 import com.nero.crm.util.JSONUtil;
 import com.nero.crm.util.MapUtil;
+import com.nero.crm.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     private static final String DIC_TYPE_PATH = "/dic/type/all";
     private static final String DIC_VALUE_PATH = "/dic/value/all";
+    private static final String OWNER_PATH = "/user/owner/all";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -39,6 +41,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (DIC_TYPE_PATH.equals(requestURI)){
             List<DicType> typeList = (List<DicType>) sc.getAttribute("dicType");
             if (null != typeList) {
+                log.info("正在从缓存获取数据字典类型...");
                 JSONUtil.printJsonObj(response, typeList);
                 return false;
             }
@@ -46,13 +49,18 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 获取数据字典数据
         if (DIC_VALUE_PATH.equals(requestURI)) {
             Map<String, List<DicValue>> map = (Map<String, List<DicValue>>)sc.getAttribute("dicValue");
-            //Set<String> keySet = map.keySet();
-            //for (String s : keySet) {
-            //    System.out.println(s);
-            //    System.out.println(map.get(s));
-            //}
             if (null != map){
+                log.info("正在从缓存获取数据字典数据...");
                 JSONUtil.printJsonObj(response, map);
+                return false;
+            }
+        }
+        // 如果请求的是owner列表，直接从缓存中获取
+        if(OWNER_PATH.equals(requestURI)){
+            List<UserVO> list = (List<UserVO>)sc.getAttribute("ownerList");
+            if (null != list) {
+                log.info("正在从缓存获取所有者列表...");
+                JSONUtil.printJsonObj(response, list);
                 return false;
             }
         }

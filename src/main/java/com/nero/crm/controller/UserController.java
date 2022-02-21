@@ -73,4 +73,9 @@ public class UserController {
         return MapUtil.getSuccessMap(user);
     }
 
+    @GetMapping("/user/owner/all")
+    public Map<String, Object> getAllOwner(){
+        return MapUtil.getSuccessMap(userService.getAllUserBaseInfo());
+    }
+
 }
