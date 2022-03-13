@@ -53,9 +53,9 @@ public class TestController {
         return map;
     }
 
-    private void insertActivity() {
+    private void insertActivity(int count) {
         List<Activity> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < count; i++) {
             Activity activity = new Activity("asdfgh", "发传单" + i,
                     DateTimeUtil.getDate(), DateTimeUtil.getDate(),
                     Integer.toString(i * 1000), "发传单" + i, DateTimeUtil.getDate(), "asdfgh", "", "");
@@ -68,9 +68,9 @@ public class TestController {
         return activityMapper.getTotal();
     }
 
-    private void insertClue(){
+    private void insertClue(int count){
         List<Clue> clueList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < count; i++) {
             Clue clue = new Clue("线索" + i, "先生", "asdfgh", "公司" + i, "CTO", i + "@qq.com", i + "xxxxxxxx", "www." + i + ".com", "0" + i + "0-xxxxxx", "联系中", "广告",
                     "asdfgh", DateTimeUtil.getDate(), "描述" + i, "联系纪要" + i, DateTimeUtil.getDate(), "地区" + i);
             clueList.add(clue);
@@ -92,10 +92,10 @@ public class TestController {
         return map;
     }
 
-    private void customerTest(){
+    private void customerTest(int count){
         // 模拟数据
         List<Customer> customerList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < count; i++) {
             Customer customer = new Customer("asdfgh", "公司" + i, "www." + i + ".com", Integer.toString(i), "asdfgh", DateTimeUtil.getDate(), Integer.toString(i), DateTimeUtil.getDate(), Integer.toString(i), Integer.toString(i));
             customerList.add(customer);
         }
@@ -105,9 +105,9 @@ public class TestController {
     /**
      * @return
      */
-    private void contacts(){
+    private void contacts(int count){
         List<Contacts> contactsList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < count; i++) {
             Contacts contacts = new Contacts("asdfgh", "广告", i, "李" + i, "先生", i + "@qq.com", Integer.toString(i), Integer.toString(i), "2022-01-01", "asdfgh", DateTimeUtil.getDate(),
                     Integer.toString(i), Integer.toString(i), DateTimeUtil.getDate(), Integer.toString(i));
             contactsList.add(contacts);
@@ -118,9 +118,9 @@ public class TestController {
     /**|
      * @return
      */
-    private void tran(){
+    private void tran(int count){
         ArrayList<Tran> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < count; i++) {
             Tran tran = new Tran("asdfgh", Integer.toString(5000), "交易" + i, "2022-01-01", 5, "资质审查", "新业务", "广告", 6, 5, "asdfgh", "2022-01-01", Integer.toString(i), Integer.toString(i), "2022-01-01", i * 10);
             list.add(tran);
         }
@@ -147,25 +147,25 @@ public class TestController {
         testMapper.clearTables();
         map.put("op1", "truncate all table....success!");
         // activity
-        insertActivity();
+        insertActivity(200);
         map.put("op2", "insert tbl_activity....success!");
         int total = getTotal();
         map.put("activity_total", total);
         // clue
-        insertClue();
+        insertClue(200);
         map.put("op3", "insert tbl_clue....success!");
         insertClueActivityRelation();
         map.put("op4", "insert tbl_clue_activity_relation....success!");
         // customer
-        customerTest();
+        customerTest(200);
         map.put("op5", "insert tbl_customer....success!");
         // contacts
-        contacts();
+        contacts(200);
         map.put("op6", "insert tbl_contacts....success!");
         insertContactsActivity();
         map.put("op7", "insert tbl_contacts_activity_relation....success!");
         // tran
-        tran();
+        tran(200);
         map.put("op8", "insert tbl_tran....success!");
         map.put("res", "all operator completed...");
         map.put("status", 200);

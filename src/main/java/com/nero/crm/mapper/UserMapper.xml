@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.nero.crm.mapper.UserMapper">
 
-    <insert id="addUser">
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id">
         insert into tbl_user(uuid,loginAct,name,loginPwd,email,expireTime,lockState,allowIps,createTime,createBy,editTime,editBy)
         values (#{uuid},#{loginAct},#{name},#{loginPwd},#{email},#{expireTime},#{lockState},#{allowIps},#{createTime},#{createBy},#{editTime},#{editBy})
     </insert>
@@ -10,6 +10,56 @@
     <update id="editLoginPwd">
         update tbl_user set loginPwd = #{loginPwd} where loginAct = #{loginAct}
     </update>
+
+    <update id="editUser">
+        update tbl_user set
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="email != null and email != ''">
+            email = #{email},
+        </if>
+        <if test="expireTime != null and expireTime != ''">
+            expireTime = #{expireTime},
+        </if>
+        <if test="lockState != null and lockState != ''">
+            lockState = #{lockState},
+        </if>
+        <if test="allowIps != null and allowIps != ''">
+            allowIps = #{allowIps},
+        </if>
+        editTime = #{editTime}, editBy = #{editBy} where id = #{id} or uuid = #{uuid}
+    </update>
+
+    <update id="updatePermission">
+        update tbl_user_role set role_id = #{roleId} where user_id = #{userId}
+    </update>
+
+    <delete id="deleteUser">
+        delete from tbl_user where id = #{id}
+    </delete>
+
+    <delete id="deleteAnyUser">
+        delete from tbl_user where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deletePermission">
+        delete from tbl_user_role where user_id = #{id}
+    </delete>
+
+    <delete id="deleteAnyPermission">
+        delete from tbl_user_role where user_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="setPermission">
+        insert into tbl_user_role(user_id, role_id) values(#{userId}, #{roleId})
+    </insert>
 
     <select id="login" resultType="com.nero.crm.domain.User">
         select id,uuid,loginAct,name,email,expireTime,lockState,allowIps
@@ -30,6 +80,45 @@
 
     <select id="selectAllUserBaseInfo" resultType="com.nero.crm.vo.UserVO">
         select id, uuid, name from tbl_user
+    </select>
+
+    <select id="getUserRole" resultType="java.lang.String">
+        select r.role_name
+        from tbl_user u
+        join tbl_user_role ur
+        on u.id = ur.user_id
+        join tbl_role r
+        on ur.role_id = r.id
+        where u.uuid = #{uuid};
+    </select>
+
+    <select id="pageList" resultType="com.nero.crm.domain.User">
+        select id, uuid, loginAct, name, email, expireTime, lockState, allowIps
+        from tbl_user
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                email like concat('%', #{email}, '%')
+            </if>
+        </where>
+        order by id
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        select count(1) from tbl_user
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                email like concat('%', #{email}, '%')
+            </if>
+        </where>
+        order by id
+        limit #{skipCount}, #{pageSize}
     </select>
 
 </mapper>

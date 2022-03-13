@@ -253,6 +253,192 @@ GET /user/owner/all
 ]
 ```
 
+### 退出登录
+
+URI:
+
+```
+GET /exit
+```
+
+参数:
+
+```
+uuid:退出登陆的用户uuid
+```
+
+响应结果:
+
+```json
+{
+    "result": "exit success!",
+    "status": 200,
+    "timestamp": 1647162087625
+}
+```
+
+### 创建账号
+
+URI:
+
+```
+POST /user/insert
+```
+
+参数:
+
+```
+loginAct:被注册账户
+loginPwd:被注册账号的密码
+email:邮箱
+expireTime:过期时间
+lockState:锁定状态
+allowIps:允许访问的ip地址
+uuid:当前账号的uuid,用来校验权限
+```
+
+响应结果:
+
+```json
+{
+    "result": "账号创建成功!",
+    "status": 200,
+    "timestamp": 1647162426903
+}
+```
+
+### 修改用户信息
+
+URI:
+
+```
+POST /user/edit
+```
+
+参数:
+
+```
+name:姓名
+email:邮箱
+expireTime:过期时间
+lockState:锁定状态
+allowIps:允许访问的地址
+editBy:当前操作用户
+```
+
+响应结果:
+
+```json
+{
+    "result": "修改成功!",
+    "status": 200,
+    "timestamp": 1647162426903
+}
+```
+
+### 删除用户
+
+URI:
+
+```
+POST /user/delete
+```
+
+参数:
+
+```
+ids:被删除用户id,可以批量删除
+```
+
+响应结果:
+
+```json
+{
+    "result": "delete success!",
+    "status": 200,
+    "timestamp": 1647162426903
+}
+```
+
+### 分页
+
+URI:
+
+```
+POST /user/pageList
+```
+
+参数:
+
+```
+pageNo:页数
+pageSize:每页数据条数
+```
+
+响应结果:
+
+```json
+{
+    "result": {
+        "total": 3,
+        "dataList": [
+            {
+                "id": 1,
+                "uuid": "asdfgh",
+                "loginAct": "zs",
+                "name": "张三",
+                "loginPwd": null,
+                "email": "123@qq.com",
+                "expireTime": "2023-12-31 18:08",
+                "lockState": "1",
+                "allowIps": "127.0.0.1, 192.168.1.1",
+                "createTime": null,
+                "createBy": null,
+                "editTime": null,
+                "editBy": null
+            },
+            {
+                "id": 2,
+                "uuid": "admin1",
+                "loginAct": "nero",
+                "name": "尼禄",
+                "loginPwd": null,
+                "email": "456@qq.com",
+                "expireTime": "2099-12-31 18:08",
+                "lockState": "1",
+                "allowIps": "*.*.*.*",
+                "createTime": null,
+                "createBy": null,
+                "editTime": null,
+                "editBy": null
+            }
+        ]
+    },
+    "status": 200,
+    "timestamp": 1647162611770
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 市场活动模块
 
 ### 数据分页展示/模糊查询
@@ -2753,4 +2939,3 @@ GET /value/all
     "timestamp": 1645342203831
 }
 ```
-

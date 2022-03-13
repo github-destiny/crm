@@ -22,14 +22,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     /**
      * 除登录以及静态资源请求外，全部禁止
-     * @param registry
      */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/", "/login", "/css/**", "/fonts/**", "images/**", "/js/**", "/test/**", "/error");
-    }
+    //@Override
+    //public void addInterceptors(InterceptorRegistry registry) {
+    //    registry.addInterceptor(new LoginInterceptor())
+    //            .addPathPatterns("/**")
+    //            .excludePathPatterns("/", "/login", "/css/**", "/fonts/**", "images/**", "/js/**", "/test/**", "/error");
+    //}
 
     @Bean
     public CorsFilter corsFilter(){
