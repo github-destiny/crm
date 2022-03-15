@@ -1,10 +1,12 @@
 package com.nero.crm.controller;
 
 import com.nero.crm.constant.StatusCode;
+import com.nero.crm.domain.Log;
 import com.nero.crm.domain.User;
 import com.nero.crm.exception.EditException;
 import com.nero.crm.exception.LoginException;
 import com.nero.crm.exception.RoleException;
+import com.nero.crm.mapper.LogMapper;
 import com.nero.crm.service.UserService;
 import com.nero.crm.util.DateTimeUtil;
 import com.nero.crm.util.MD5Util;
@@ -133,6 +135,24 @@ public class UserController {
                                         @RequestParam(value = "email", required = false) String email){
         int skipCount = (pageNo - 1) * pageSize;
         PaginationVO<User> vo = userService.pageList(skipCount, pageSize, name, email);
+        return MapUtil.getSuccessMap(vo);
+    }
+
+    @Autowired
+    private LogMapper logMapper;
+
+    @GetMapping("/log")
+    public Map<String, Object> getLog(@RequestParam("pageNo") Integer pageNo,
+                                      @RequestParam("pageSize") Integer pageSize,
+                                      @RequestParam(value = "createTime", required = false) String createTime){
+        log.info("进入日志查看方法");
+        log.info("method args:[pageNo:{}, type:{}], [pageSize:{}, type:{}], [createTime:{}]", pageNo, pageNo.getClass().toString(), pageSize, pageSize.getClass().toString(), createTime);
+        Integer skipCount = (pageNo - 1) * pageSize;
+        List<Log> logs = logMapper.pageList(skipCount, pageSize, createTime);
+        Integer total = logMapper.getTotal(skipCount, pageSize, createTime);
+        PaginationVO<Log> vo = new PaginationVO<>();
+        vo.setDataList(logs);
+        vo.setTotal(total);
         return MapUtil.getSuccessMap(vo);
     }
 
