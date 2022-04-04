@@ -35,10 +35,10 @@ public class LogAspect {
 
     @AfterReturning("servicePoint()")
     public void afterAdvice(JoinPoint joinPoint){
-        log.info("method signature:[{}]", joinPoint.getSignature());
+        log.info("method signature:[{}]", joinPoint.getSignature().getName());
         Log log = new Log();
         log.setCreateTime(DateTimeUtil.getDate());
-        log.setSignature(joinPoint.getSignature().toLongString());
+        log.setSignature(joinPoint.getSignature().getName());
         String kind = joinPoint.getKind();
         log.setType(kind);
         String args = Arrays.toString(joinPoint.getArgs());

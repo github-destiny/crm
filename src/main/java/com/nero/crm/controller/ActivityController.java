@@ -108,6 +108,4 @@ public class ActivityController {
         return MapUtil.getSuccessMap(activities);
     }
 
-
-
 }

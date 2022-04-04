@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80026
 File Encoding         : 65001
 
-Date: 2022-03-13 17:16:44
+Date: 2022-04-04 21:23:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1056,6 +1056,99 @@ INSERT INTO `tbl_dic_value` VALUES ('46', '公开媒介', '公开媒介', '7', '
 INSERT INTO `tbl_dic_value` VALUES ('47', '外部介绍', '外部介绍', '4', 'source');
 
 -- ----------------------------
+-- Table structure for `tbl_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_log`;
+CREATE TABLE `tbl_log` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `signature` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `args` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `type` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `createTime` char(19) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Records of tbl_log
+-- ----------------------------
+INSERT INTO `tbl_log` VALUES ('1', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 14:07:56');
+INSERT INTO `tbl_log` VALUES ('2', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 14:07:56');
+INSERT INTO `tbl_log` VALUES ('3', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 14:07:57');
+INSERT INTO `tbl_log` VALUES ('4', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 14:10:06');
+INSERT INTO `tbl_log` VALUES ('5', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 14:10:07');
+INSERT INTO `tbl_log` VALUES ('6', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 14:10:07');
+INSERT INTO `tbl_log` VALUES ('7', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 14:14:51');
+INSERT INTO `tbl_log` VALUES ('8', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 14:14:51');
+INSERT INTO `tbl_log` VALUES ('9', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 14:14:51');
+INSERT INTO `tbl_log` VALUES ('10', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 16:40:47');
+INSERT INTO `tbl_log` VALUES ('11', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 16:40:47');
+INSERT INTO `tbl_log` VALUES ('12', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 16:40:47');
+INSERT INTO `tbl_log` VALUES ('13', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 16:42:47');
+INSERT INTO `tbl_log` VALUES ('14', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 16:42:47');
+INSERT INTO `tbl_log` VALUES ('15', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 16:42:47');
+INSERT INTO `tbl_log` VALUES ('16', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 16:46:28');
+INSERT INTO `tbl_log` VALUES ('17', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 16:46:28');
+INSERT INTO `tbl_log` VALUES ('18', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 16:46:28');
+INSERT INTO `tbl_log` VALUES ('19', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 16:50:21');
+INSERT INTO `tbl_log` VALUES ('20', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 16:50:21');
+INSERT INTO `tbl_log` VALUES ('21', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 16:50:21');
+INSERT INTO `tbl_log` VALUES ('22', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 16:52:40');
+INSERT INTO `tbl_log` VALUES ('23', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 16:52:41');
+INSERT INTO `tbl_log` VALUES ('24', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 16:52:41');
+INSERT INTO `tbl_log` VALUES ('25', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 16:57:07');
+INSERT INTO `tbl_log` VALUES ('26', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 16:57:07');
+INSERT INTO `tbl_log` VALUES ('27', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 16:57:07');
+INSERT INTO `tbl_log` VALUES ('28', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-03-15 17:01:10');
+INSERT INTO `tbl_log` VALUES ('29', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-03-15 17:01:10');
+INSERT INTO `tbl_log` VALUES ('30', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-03-15 17:01:10');
+INSERT INTO `tbl_log` VALUES ('31', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-04-04 12:15:49');
+INSERT INTO `tbl_log` VALUES ('32', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-04-04 12:15:49');
+INSERT INTO `tbl_log` VALUES ('33', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-04-04 12:15:49');
+INSERT INTO `tbl_log` VALUES ('34', 'public com.nero.crm.domain.User com.nero.crm.service.UserService.login(java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest)', '[zs, 250cf8b51c773f3f8dc8b4be867a9a02, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@519f96ea]', 'method-execution', '2022-04-04 12:22:19');
+INSERT INTO `tbl_log` VALUES ('35', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-04-04 15:24:15');
+INSERT INTO `tbl_log` VALUES ('36', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-04-04 15:24:15');
+INSERT INTO `tbl_log` VALUES ('37', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-04-04 15:24:15');
+INSERT INTO `tbl_log` VALUES ('38', 'public com.nero.crm.domain.User com.nero.crm.service.UserService.login(java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest)', '[zs, 250cf8b51c773f3f8dc8b4be867a9a02, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@306223fe]', 'method-execution', '2022-04-04 15:24:30');
+INSERT INTO `tbl_log` VALUES ('39', 'public void com.nero.crm.service.UserService.editPwd(java.lang.String,java.lang.String,java.lang.String)', '[zs, 250cf8b51c773f3f8dc8b4be867a9a02, 202cb962ac59075b964b07152d234b70]', 'method-execution', '2022-04-04 15:27:05');
+INSERT INTO `tbl_log` VALUES ('40', 'public com.nero.crm.domain.User com.nero.crm.service.UserService.getUserInfo(java.lang.String)', '[zs]', 'method-execution', '2022-04-04 15:27:58');
+INSERT INTO `tbl_log` VALUES ('41', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-04-04 15:28:18');
+INSERT INTO `tbl_log` VALUES ('42', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-04-04 15:28:56');
+INSERT INTO `tbl_log` VALUES ('43', 'public java.util.List com.nero.crm.service.DicService.getAllDicType()', '[]', 'method-execution', '2022-04-04 15:31:50');
+INSERT INTO `tbl_log` VALUES ('44', 'public java.util.List com.nero.crm.service.DicService.getAllDicValue()', '[]', 'method-execution', '2022-04-04 15:31:50');
+INSERT INTO `tbl_log` VALUES ('45', 'public java.util.List com.nero.crm.service.UserService.getAllUserBaseInfo()', '[]', 'method-execution', '2022-04-04 15:31:50');
+INSERT INTO `tbl_log` VALUES ('46', 'public com.nero.crm.domain.User com.nero.crm.service.UserService.login(java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest)', '[zs, 202cb962ac59075b964b07152d234b70, org.apache.catalina.connector.RequestFacade@3062607f]', 'method-execution', '2022-04-04 15:34:23');
+INSERT INTO `tbl_log` VALUES ('47', 'public void com.nero.crm.service.UserService.addUser(com.nero.crm.domain.User,java.lang.String)', '[User(id=5, uuid=9ab40c, loginAct=ls, name=李四, loginPwd=202cb962ac59075b964b07152d234b70, email=456@qq.com, expireTime=null, lockState=null, allowIps=null, createTime=2022-04-04 15:35:21, createBy=asdfgh, editTime=null, editBy=null), asdfgh]', 'method-execution', '2022-04-04 15:35:21');
+INSERT INTO `tbl_log` VALUES ('48', 'public void com.nero.crm.service.UserService.editUser(com.nero.crm.domain.User)', '[User(id=null, uuid=9ab40c, loginAct=null, name=null, loginPwd=null, email=null, expireTime=2022-04-30, lockState=1, allowIps=127.0.0.1, createTime=null, createBy=null, editTime=2022-04-04 15:38:03, editBy=asdfgh)]', 'method-execution', '2022-04-04 15:38:03');
+INSERT INTO `tbl_log` VALUES ('49', 'public void com.nero.crm.service.UserService.deleteUser(java.util.List)', '[[4]]', 'method-execution', '2022-04-04 15:38:50');
+INSERT INTO `tbl_log` VALUES ('50', 'getAllDicType', '[]', 'method-execution', '2022-04-04 15:42:27');
+INSERT INTO `tbl_log` VALUES ('51', 'getAllDicValue', '[]', 'method-execution', '2022-04-04 15:42:27');
+INSERT INTO `tbl_log` VALUES ('52', 'getAllUserBaseInfo', '[]', 'method-execution', '2022-04-04 15:42:27');
+INSERT INTO `tbl_log` VALUES ('53', 'getAllDicType', '[]', 'method-execution', '2022-04-04 15:46:00');
+INSERT INTO `tbl_log` VALUES ('54', 'getAllDicValue', '[]', 'method-execution', '2022-04-04 15:46:00');
+INSERT INTO `tbl_log` VALUES ('55', 'getAllUserBaseInfo', '[]', 'method-execution', '2022-04-04 15:46:01');
+INSERT INTO `tbl_log` VALUES ('56', 'login', '[zs, 202cb962ac59075b964b07152d234b70, org.apache.catalina.connector.RequestFacade@1bbb2279]', 'method-execution', '2022-04-04 15:46:49');
+INSERT INTO `tbl_log` VALUES ('57', 'getAllDicType', '[]', 'method-execution', '2022-04-04 15:50:38');
+INSERT INTO `tbl_log` VALUES ('58', 'getAllDicValue', '[]', 'method-execution', '2022-04-04 15:50:38');
+INSERT INTO `tbl_log` VALUES ('59', 'getAllUserBaseInfo', '[]', 'method-execution', '2022-04-04 15:50:38');
+INSERT INTO `tbl_log` VALUES ('60', 'login', '[zs, 202cb962ac59075b964b07152d234b70, org.apache.catalina.connector.RequestFacade@1f1879ac]', 'method-execution', '2022-04-04 15:51:01');
+INSERT INTO `tbl_log` VALUES ('61', 'getAllDicType', '[]', 'method-execution', '2022-04-04 20:52:14');
+INSERT INTO `tbl_log` VALUES ('62', 'getAllDicValue', '[]', 'method-execution', '2022-04-04 20:52:14');
+INSERT INTO `tbl_log` VALUES ('63', 'getAllUserBaseInfo', '[]', 'method-execution', '2022-04-04 20:52:14');
+INSERT INTO `tbl_log` VALUES ('64', 'login', '[zs, 202cb962ac59075b964b07152d234b70, org.apache.catalina.connector.RequestFacade@1eda930]', 'method-execution', '2022-04-04 20:52:49');
+INSERT INTO `tbl_log` VALUES ('65', 'login', '[nero, 202cb962ac59075b964b07152d234b70, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@31b08cb7]', 'method-execution', '2022-04-04 20:55:36');
+INSERT INTO `tbl_log` VALUES ('66', 'getAllDicType', '[]', 'method-execution', '2022-04-04 20:57:43');
+INSERT INTO `tbl_log` VALUES ('67', 'getAllDicValue', '[]', 'method-execution', '2022-04-04 20:57:43');
+INSERT INTO `tbl_log` VALUES ('68', 'getAllUserBaseInfo', '[]', 'method-execution', '2022-04-04 20:57:43');
+INSERT INTO `tbl_log` VALUES ('69', 'login', '[zs, 202cb962ac59075b964b07152d234b70, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@b822f3]', 'method-execution', '2022-04-04 20:59:10');
+INSERT INTO `tbl_log` VALUES ('70', 'login', '[nero, 202cb962ac59075b964b07152d234b70, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@36bf1c1f]', 'method-execution', '2022-04-04 20:59:13');
+INSERT INTO `tbl_log` VALUES ('71', 'pageList', '[0, 2, null, null]', 'method-execution', '2022-04-04 21:00:48');
+INSERT INTO `tbl_log` VALUES ('72', 'getAllDicType', '[]', 'method-execution', '2022-04-04 21:03:05');
+INSERT INTO `tbl_log` VALUES ('73', 'getAllDicValue', '[]', 'method-execution', '2022-04-04 21:03:06');
+INSERT INTO `tbl_log` VALUES ('74', 'getAllUserBaseInfo', '[]', 'method-execution', '2022-04-04 21:03:06');
+INSERT INTO `tbl_log` VALUES ('75', 'login', '[zs, 202cb962ac59075b964b07152d234b70, org.springframework.web.multipart.support.StandardMultipartHttpServletRequest@24f95f0e]', 'method-execution', '2022-04-04 21:03:38');
+INSERT INTO `tbl_log` VALUES ('76', 'pageList', '[2, 2, null, null]', 'method-execution', '2022-04-04 21:03:42');
+
+-- ----------------------------
 -- Table structure for `tbl_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_role`;
@@ -1373,14 +1466,14 @@ CREATE TABLE `tbl_user` (
   `editTime` char(19) DEFAULT NULL,
   `editBy` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'asdfgh', 'zs', '张三', '250cf8b51c773f3f8dc8b4be867a9a02', '123@qq.com', '2023-12-31 18:08', '1', '127.0.0.1, 192.168.1.1', '2023-12-31 18:08', 'asdfgh', null, null);
+INSERT INTO `tbl_user` VALUES ('1', 'asdfgh', 'zs', '张三', '202cb962ac59075b964b07152d234b70', '123@qq.com', '2023-12-31 18:08', '1', '127.0.0.1, 192.168.1.1', '2023-12-31 18:08', 'asdfgh', null, null);
 INSERT INTO `tbl_user` VALUES ('2', 'admin1', 'nero', '尼禄', '202cb962ac59075b964b07152d234b70', '456@qq.com', '2099-12-31 18:08', '1', '*.*.*.*', '2022-02-21 14:59', 'asdfgh', null, null);
-INSERT INTO `tbl_user` VALUES ('4', 'a052fb', 'ww', '王五', '202cb962ac59075b964b07152d234b70', '123@qq.com', '2023-03-03', '1', '127.0.0.1', '2022-03-13 17:07:06', 'asdfgh', null, null);
+INSERT INTO `tbl_user` VALUES ('5', '9ab40c', 'ls', '李四', '202cb962ac59075b964b07152d234b70', '456@qq.com', '2022-04-30', '1', '127.0.0.1', '2022-04-04 15:35:21', 'asdfgh', '2022-04-04 15:38:03', 'asdfgh');
 
 -- ----------------------------
 -- Table structure for `tbl_user_role`
@@ -1396,4 +1489,4 @@ CREATE TABLE `tbl_user_role` (
 -- ----------------------------
 INSERT INTO `tbl_user_role` VALUES ('1', '1');
 INSERT INTO `tbl_user_role` VALUES ('2', '1');
-INSERT INTO `tbl_user_role` VALUES ('4', '2');
+INSERT INTO `tbl_user_role` VALUES ('5', '2');

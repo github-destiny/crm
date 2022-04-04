@@ -419,25 +419,123 @@ pageSize:每页数据条数
 }
 ```
 
+### 退出
 
+URI:
 
+```
+GET /exit
+```
 
+参数:无
 
+说明:删除session中保存的当前用户对象
 
+返回值:
 
+```json
+{
+    "result": "exit success!",
+    "status": 200,
+    "timestamp": 1649077182366
+}
+```
 
+### 增加用户(需要管理员权限)
 
+URI:
 
+```
+POST /user/insert
+```
 
+参数:
 
+```
+uuid:当前执行创建操作的用户,因为需要判断创建用户的人是否有操作权限.被创建者的UUID将会在后台生成
+loginAct:被创建账号的用户名
+name:姓名
+loginPwd:登陆密码
+email:邮件(可选)
+expireTime:过期时间(可选,建议填上,否则需要后续通过修改接口修改)
+lockState:锁定状态,不设置为1
+allowIps:允许访问的IP
+```
 
+### 修改用户(需要管理员权限)
 
+URI:
 
+```
+POST /user/edit
+```
 
+参数:
 
+```
+uuid:被修改用户的uuid
+name:姓名
+email:邮件
+expireTime:过期时间
+lockState:锁定状态
+allowIps:允许访问的IP
+editBy:执行操作的用户的uuid
+```
 
+### 删除用户
 
+URI:
 
+```
+POST /user/delete
+```
+
+参数:
+
+```
+ids:可以多个参数,每个参数即为用户的id
+```
+
+### 用户信息分页
+
+URI:
+
+```
+POST /user/pageList
+```
+
+参数:
+
+```
+pageNo:页数
+pageSize:每页大小
+name:姓名(可选)
+email:邮件(可选)
+```
+
+### 日志
+
+URI:
+
+```
+GET /log
+```
+
+参数:
+
+````
+pageNo:页数
+pageSize:每页大小
+createTime:日志记录时间
+````
+
+描述:
+
+```
+日志功能不是很完善,针对所有service中的方法进行了后置通知,由于AOP中只能获取方法的签名,参数等信息,所以在数据库中也记录了这些信息,记录了方法的签名,参数,增强的对象执行的操作,以及执行时间等信息.
+```
+
+![](https://my-picture-container.oss-cn-beijing.aliyuncs.com/blog/2022-04-04-21:22:28.png)
 
 ## 市场活动模块
 

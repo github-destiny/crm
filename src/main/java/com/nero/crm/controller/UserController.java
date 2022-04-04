@@ -103,6 +103,10 @@ public class UserController {
         user.setCreateTime(DateTimeUtil.getDate());
         user.setCreateBy(currentUuid);
         user.setLoginPwd(MD5Util.getMD5(user.getLoginPwd()));
+        String lockState = user.getLockState();
+        if (null == lockState || "".equals(lockState)){
+            user.setLockState("1");
+        }
         try {
             userService.addUser(user, currentUuid);
             return MapUtil.getSuccessMap("账号创建成功!");
